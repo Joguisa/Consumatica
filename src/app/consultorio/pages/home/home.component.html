@@ -1,0 +1,66 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <div class="logogeneral">
+      <h1>
+        <a href="landing"
+          ><strong>{{ "Consumatica" | uppercase }}</strong></a
+        >
+      </h1>
+      <div class="logo">
+        <a href=""><img src="/assets/img/caduceo.png" alt="logo-Empresa" /></a>
+      </div>
+    </div>
+
+    <!-- <div class="loading">
+      <svg width="64px" height="48px">
+        <polyline
+          points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24"
+          id="back"
+        ></polyline>
+        <polyline
+          points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24"
+          id="front"
+        ></polyline>
+      </svg>
+    </div> -->
+
+    <span style="flex: 1 1 auto"></span>
+
+    <button mat-icon-button (click)="cerrarSesion()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav opened="true" mode="side" style="width: 200px">
+    <mat-nav-list>
+      <a routerLink="./empleado" mat-list-item (click)="sidenav.toggle()">
+        <i class="material-icons">supervised_user_circle</i>
+        <span>Empleados</span>
+      </a>
+      <a routerLink="./paciente" mat-list-item (click)="sidenav.toggle()">
+        <i class="material-icons">airline_seat_flat</i>
+        <span>Pacientes</span>
+      </a>
+      <a routerLink="./cargos" mat-list-item (click)="sidenav.toggle()">
+        <i class="material-icons">assignment_ind</i>
+        <span>Cargos</span>
+      </a>
+      <a routerLink="./servicios" mat-list-item (click)="sidenav.toggle()">
+        <i class="material-icons">local_hospital</i>
+        <span>Servicios</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div style="height: 90vh">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

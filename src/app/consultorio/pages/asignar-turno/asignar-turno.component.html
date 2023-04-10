@@ -1,0 +1,90 @@
+<mat-dialog-content>
+  <section id="cita" class="cita section-bg">
+    <div class="container">
+      <div class="section-title">
+        <h2 style="margin: 20px 0px 0px 40px">Haga una cita</h2>
+        <p>
+          Nuestro sistema de citas en línea es fácil de usar y le permite
+          programar una cita en solo unos pocos pasos. Además, si lo prefiere,
+          también puede hacer una cita por teléfono o directamente en nuestro
+          consultorio. En cualquier caso, nuestro equipo de profesionales estará
+          encantado de atenderlo y brindarle la mejor atención médica posible.
+          ¡No dude en programar su cita hoy mismo!
+        </p>
+      </div>
+
+      <mat-card style="margin: 20px 40px 40px 40px">
+        <mat-card-content>
+          <form [formGroup]="formTurno" (ngSubmit)="agendar()">
+            <mat-grid-list cols="3" rowHeight="100px">
+              <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                  <mat-label>Nombres</mat-label>
+                  <input
+                    matInput
+                    formControlName="nombres"
+                    autocomplete="off"
+                  />
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                  <mat-label>Apellidos</mat-label>
+                  <input
+                    matInput
+                    formControlName="apellidos"
+                    autocomplete="off"
+                  />
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                  <mat-label>Cedula</mat-label>
+                  <input matInput formControlName="cedula" autocomplete="off" />
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field appearance="fill">
+                  <mat-label>Ingrese una fecha</mat-label>
+                  <input
+                    matInput
+                    formControlName="horaConsulta"
+                    [matDatepicker]="datepicker"
+                  />
+                  <mat-hint>MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="datepicker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #datepicker></mat-datepicker>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <mat-form-field appearance="outline">
+                  <mat-label>Servicio</mat-label>
+                  <mat-select formControlName="nombreServicio" matInput>
+                    <mat-option
+                      *ngFor="let item of listaServicios"
+                      [value]="item.nombreServicio"
+                    >
+                      {{ item.nombreServicio }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </form>
+        </mat-card-content>
+        <div class="text-center">
+          <button class="btn btn-primary btn-lg mb-5" type="submit">
+            Agendar Cita
+          </button>
+        </div>
+      </mat-card>
+    </div>
+  </section>
+</mat-dialog-content>

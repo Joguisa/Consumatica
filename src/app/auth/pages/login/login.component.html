@@ -1,0 +1,82 @@
+<div id="particle-container">
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+</div>
+<div class="body">
+  <mat-card class="loginCard">
+    <div class="header">
+      <h2>Login</h2>
+    </div>
+    <mat-card-content style="padding-bottom: 15px">
+      <form
+        *ngIf="!loading"
+        [formGroup]="usuarioLogin"
+        (ngSubmit)="iniciarSesion()"
+      >
+        <img src="./assets/img/profile.png" width="50%" />
+
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Usuario</mat-label>
+          <input matInput autocomplete="off" formControlName="usuario" />
+          <mat-icon matSuffix>mail</mat-icon>
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input
+            type="password"
+            matInput
+            autocomplete="off"
+            formControlName="password"
+            matInput
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <br />
+        <button
+          type="submit"
+          class="full-width button"
+          mat-raised-button
+          color="primary"
+          [disabled]="!usuarioLogin.valid"
+        >
+          Ingresar
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-footer>
+      <mat-progress-bar
+        mode="indeterminate"
+        *ngIf="mostrarLoading"
+      ></mat-progress-bar>
+    </mat-card-footer>
+  </mat-card>
+</div>
