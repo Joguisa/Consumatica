@@ -8,7 +8,10 @@ import { TipoEmpleadoService } from '../../services/tipo-empleado.service';
 import { UtilidadService } from 'src/app/shared/services/utilidad.service';
 import { TipoEmpleado } from '../../interfaces/tipo-empleado';
 import { Empleado } from '../../interfaces/empleado';
-import { MatTableDataSource } from '@angular/material/table';
+import { ServiciosService } from '../../services/servicios.service';
+import { Servicio } from '../../interfaces/servicio';
+import { TransaccionService } from '../../services/transaccion.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-dialog-empleado',
@@ -19,6 +22,8 @@ export class DialogEmpleadoComponent implements OnInit {
   formEmpleado!: FormGroup;
   tituloAccion: string = 'Nuevo';
   botonAccion: string = 'Guardar';
+  empleados: Empleado[] = [];
+  tipoServicios: Servicio[] = [];
   listaTipo: TipoEmpleado[] = [];
   idTipoEmpleado: number = 0;
   idServicio: number = 0;
@@ -30,18 +35,28 @@ export class DialogEmpleadoComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public datosEmpleado: Empleado,
     private _empleadoService: EmpleadoService,
     private _tiposervice: TipoEmpleadoService,
-    private _utilidadServicio: UtilidadService
+    private _serviciosServicio: ServiciosService,
+    private _utilidadServicio: UtilidadService,
+    private _transaccionServicio: TransaccionService
   ) {
     this.formEmpleado = this.fb.group({
       cedula: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       nombres: ['', Validators.required],
       apellidos: ['', Validators.required],
-      nombreTipo: ['', Validators.required],
+      // nombreTipo: ['', Validators.required],
+      // nombreServicio: ['', Validators.required],
     });
 
     this._tiposervice.getTipos().subscribe({
       next: (data) => {
         if (data) this.listaTipo = data;
+      },
+      error: (e) => {},
+    });
+
+    this._serviciosServicio.getServicios().subscribe({
+      next: (data) => {
+        if (data) this.tipoServicios = data;
       },
       error: (e) => {},
     });
@@ -57,42 +72,61 @@ export class DialogEmpleadoComponent implements OnInit {
         nombres: this.datosEmpleado.nombres,
         apellidos: this.datosEmpleado.apellidos,
         nombreTipo: this.datosEmpleado.asignacion?.tipoEmpleado.nombreTipo, // para tipo empleado
+        nombreServicio:
+          this.datosEmpleado.servicio?.tipoServicio.nombreServicio,
       });
     }
   }
 
   addEditEmpleado() {
-    const modelo: any = {
+    const modelo: Empleado = {
       id: this.datosEmpleado == null ? 0 : this.datosEmpleado.id,
       cedula: this.formEmpleado.value.cedula,
       nombres: this.formEmpleado.value.nombres,
       apellidos: this.formEmpleado.value.apellidos,
-
       asignacion: {
-        tipoEmpleado: {
-          nombreTipo: this.formEmpleado.value.nombreTipo,
-        },
+        tipoEmpleado: this.formEmpleado.value.tipoEmpleado.nombreTipo,
       },
 
       servicio: {
-        tipoServicio: this.formEmpleado.value.tipoServicio,
+        tipoServicio: this.formEmpleado.value.tipoServicio.nombreServicio,
       },
     };
 
     if (this.datosEmpleado == null) {
-      this._empleadoService.addEmpleado(modelo, this.idTipoEmpleado).subscribe({
+      this._empleadoService
+        .addEmpleado(this.idTipoEmpleado, this.idServicio, modelo)
+        .subscribe({
+          next: (data) => {
+            // if (data) {
+            this._utilidadServicio.mostrarAlerta(
+              'El paciente fue registrado',
+              'Exito'
+            );
+            this.dialogReference.close('creado');
+            // } else
+          },
+          error: (e) => {
+            this._utilidadServicio.mostrarAlerta(
+              'No se pudo registrar el paciente',
+              'Error'
+            );
+          },
+        });
+    } else {
+      this._empleadoService.updateEmpleado(modelo, modelo.id).subscribe({
         next: (data) => {
           // if (data) {
           this._utilidadServicio.mostrarAlerta(
-            'El paciente fue registrado',
+            'El empleado fue editado',
             'Exito'
           );
-          this.dialogReference.close('true');
+          this.dialogReference.close('creado');
           // } else
         },
         error: (e) => {
           this._utilidadServicio.mostrarAlerta(
-            'No se pudo registrar el paciente',
+            'No se pudo editar el empleado',
             'Error'
           );
         },

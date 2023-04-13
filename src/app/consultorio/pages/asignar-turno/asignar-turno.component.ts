@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import * as moment from 'moment';
 import { UtilidadService } from 'src/app/shared/services/utilidad.service';
 import { AsignarTurnoService } from '../../services/asignar-turno.service';
@@ -27,6 +27,7 @@ export class AsignarTurnoComponent implements OnInit {
     private _asignarTurno: AsignarTurnoService,
     @Inject(MAT_DIALOG_DATA) public datosTurnos: AsignarTurnos,
     private _serviciosServicio: ServiciosService,
+    private dateAdapter: DateAdapter<Date>,
     private _utilidadServicio: UtilidadService
   ) {
     this.formTurno = this.fb.group({

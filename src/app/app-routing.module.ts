@@ -4,6 +4,7 @@ import { LandingComponent } from './consultorio/pages/landing/landing.component'
 import { ErrorPageComponent } from './shared/error-page/error-page.component';
 import { AuthGuard } from './auth/guard/auth.guard';
 import { AsignarTurnoComponent } from './consultorio/pages/asignar-turno/asignar-turno.component';
+import { HomeComponent } from './consultorio/pages/home/home.component';
 
 const routes: Routes = [
   {
@@ -16,13 +17,13 @@ const routes: Routes = [
       import('./consultorio/consultorio.module').then(
         (m) => m.ConsultorioModule
       ),
-    canLoad: [AuthGuard],
-    canActivate: [AuthGuard],
+    // canLoad: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
-  {
-    path: 'turno',
-    component: AsignarTurnoComponent,
-  },
+  // {
+  //   path: 'turno',
+  //   component: AsignarTurnoComponent,
+  // },
 
   {
     path: 'landing',
@@ -32,6 +33,10 @@ const routes: Routes = [
     path: '404',
     component: ErrorPageComponent,
   },
+  // {
+  //   path: '**',
+  //   redirectTo: '404',
+  // },
   { path: '', pathMatch: 'full', redirectTo: '/landing' },
 ];
 

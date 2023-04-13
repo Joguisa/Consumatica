@@ -17,28 +17,20 @@ export class EmpleadoService {
     return this.http.get<Empleado[]>(`${this.apiUrl}empleados`);
   }
 
-  //método original
-  // addEmpleado(
-  //   modelo: any,
-  //   idTipoEmpleado: number,
-  //   idServicio: number
-  // ): Observable<Empleado> {
-  //   return this.http.post<Empleado>(
-  //     `${this.apiUrl}empleados?id_tipo_empleado=${idTipoEmpleado}&id_servicio=${idServicio}`,
-  //     modelo
-  //   );
-  // }
-
-  addEmpleado(modelo: any, idTipoEmpleado: number): Observable<Empleado> {
+  addEmpleado(
+    idTipoEmpleado: number,
+    idServicio: number,
+    modelo: Empleado
+  ): Observable<Empleado> {
     return this.http.post<Empleado>(
-      `${this.apiUrl}empleados?id_tipo_empleado=${idTipoEmpleado}`,
+      `${this.apiUrl}empleados?id_tipo_empleado=${idTipoEmpleado}&id_servicio=${idServicio}`,
       modelo
     );
   }
 
-  // addEmpleado(modelo: Empleado): Observable<Empleado> {
-  //   return this.http.post<Empleado>(`${this.apiUrl}empleados`, modelo);
-  // }
+  updateEmpleado(modelo: Empleado, id: number): Observable<Empleado> {
+    return this.http.put<Empleado>(`${this.apiUrl}empleados/${id}`, modelo);
+  }
 
   deleteEmpleado(idEmpleado: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}empleados/${idEmpleado}`);

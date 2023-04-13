@@ -25,6 +25,7 @@ export class EmpleadoComponent implements AfterViewInit, OnInit {
     'nombre',
     'apellido',
     'tipo',
+    'servicio',
     'acciones',
   ];
   dataSource = new MatTableDataSource<Empleado>();
@@ -36,18 +37,18 @@ export class EmpleadoComponent implements AfterViewInit, OnInit {
     private _utilidadServicio: UtilidadService
   ) {}
 
-  agregarEmpleado() {
-    this.dialog
-      .open(DialogEmpleadoComponent, {
-        disableClose: true,
-      })
-      .afterClosed()
-      .subscribe((resultado) => {
-        if (resultado === 'creado') {
-          this.mostrarEmpleados();
-        }
-      });
-  }
+  // agregarEmpleado() {
+  //   this.dialog
+  //     .open(DialogEmpleadoComponent, {
+  //       disableClose: true,
+  //     })
+  //     .afterClosed()
+  //     .subscribe((resultado) => {
+  //       if (resultado === 'creado') {
+  //         this.mostrarEmpleados();
+  //       }
+  //     });
+  // }
 
   ngOnInit(): void {
     this.mostrarEmpleados();
@@ -69,9 +70,35 @@ export class EmpleadoComponent implements AfterViewInit, OnInit {
           apellidos: empleado.apellidos,
           cedula: empleado.cedula,
           cargo: empleado.asignacion?.tipoEmpleado.nombreTipo,
+          servicio: empleado.servicio,
         }));
       },
       error: (e) => {},
+    });
+  }
+
+  agregarEmpleado() {
+    const dialogRef = this.dialog.open(DialogEmpleadoComponent, {
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado === 'creado') {
+        this.mostrarEmpleados();
+      }
+    });
+  }
+
+  editarEmpleado(empelado: Empleado) {
+    const dialogRef = this.dialog.open(DialogEmpleadoComponent, {
+      disableClose: true,
+      data: empelado,
+    });
+
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado === 'creado') {
+        this.mostrarEmpleados();
+      }
     });
   }
 
@@ -87,7 +114,7 @@ export class EmpleadoComponent implements AfterViewInit, OnInit {
       cancelButtonText: 'No, volver',
     }).then((resultado) => {
       if (resultado.isConfirmed) {
-        console.log(idEmpleado);
+        // console.log(idEmpleado);
         this._empleadoService
           .deleteEmpleado(idEmpleado.cedula)
           .subscribe(() => {

@@ -20,7 +20,7 @@ export class TipoEmpleadoService {
     return this.http.post<TipoEmpleado>(`${this.apiUrl}tipoEmpleado`, modelo);
   }
 
-  updateTipos(modelo: TipoEmpleado, id: any): Observable<TipoEmpleado> {
+  updateTipos(modelo: TipoEmpleado, id: number): Observable<TipoEmpleado> {
     return this.http.put<TipoEmpleado>(
       `${this.apiUrl}tiposEmpleado/${id}`,
       modelo

@@ -10,7 +10,6 @@
           <mat-label>Cedula</mat-label>
           <input
             matInput
-            type="number"
             formControlName="cedula"
             autocomplete="off"
             pattern="[0-9]*"
@@ -41,9 +40,30 @@
       <mat-grid-tile>
         <mat-form-field appearance="outline">
           <mat-label>Cargo</mat-label>
-          <mat-select formControlName="nombreTipo" matInput>
-            <mat-option *ngFor="let item of listaTipo" value="item.nombreTipo">
+          <!-- <mat-select formControlName="idTipoEmpleado" matInput> -->
+          <mat-select
+            [(ngModel)]="idTipoEmpleado"
+            [ngModelOptions]="{ standalone: true }"
+            matInput
+          >
+            <mat-option *ngFor="let item of listaTipo" [value]="item.id">
               {{ item.nombreTipo }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-form-field appearance="outline">
+          <mat-label>Servicio</mat-label>
+          <!-- <mat-select formControlName="idServicio" matInput> -->
+          <mat-select
+            [(ngModel)]="idServicio"
+            [ngModelOptions]="{ standalone: true }"
+            matInput
+          >
+            <mat-option *ngFor="let item of tipoServicios" [value]="item.id">
+              {{ item.nombreServicio }}
             </mat-option>
           </mat-select>
         </mat-form-field>

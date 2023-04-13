@@ -83,7 +83,7 @@ export class DialogPacienteComponent implements OnInit {
         },
         error: (e) => {
           this._utilidadServicio.mostrarAlerta(
-            'No se pudo editar el producto',
+            'No se pudo editar el paciente',
             'Error'
           );
         },
