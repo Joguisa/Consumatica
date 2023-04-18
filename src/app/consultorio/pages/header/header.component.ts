@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MenuItem } from 'primeng/api';
-import { AsignarTurnoComponent } from '../asignar-turno/asignar-turno.component';
 
 @Component({
   selector: 'app-header',
@@ -40,17 +39,5 @@ export class HeaderComponent implements OnInit {
         routerLink: '#contactanos',
       },
     ];
-  }
-
-  agendarTurno() {
-    this.dialog
-      .open(AsignarTurnoComponent, {
-        disableClose: false,
-      })
-      .afterClosed()
-      .subscribe((resultado) => {
-        if (resultado === 'creado') {
-        }
-      });
   }
 }

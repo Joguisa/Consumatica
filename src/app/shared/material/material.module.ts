@@ -25,7 +25,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 
 import { MatNativeDateModule } from '@angular/material/core'; // para usar fechas nativas de JS
-import { MatMomentDateModule } from '@angular/material-moment-adapter'; // para usar Moment.js
 
 @NgModule({
   declarations: [],
@@ -55,7 +54,6 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter'; // para 
     MatSortModule,
     ReactiveFormsModule,
     MatNativeDateModule,
-    MatMomentDateModule,
   ],
   providers: [MatDatepickerModule, MatNativeDateModule],
 })

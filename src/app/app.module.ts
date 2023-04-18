@@ -4,13 +4,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material/material.module';
-import { PrimeNgModule } from './prime-ng/prime-ng.module';
-import { ErrorPageComponent } from './shared/error-page/error-page.component';
+import { MaterialModule } from './shared/material/material.module';
+import { PrimeNgModule } from './shared/prime-ng/prime-ng.module';
 import { HttpClientModule } from '@angular/common/http';
+import { SharedModule } from './shared/shared.module';
+import { HeaderComponent } from './consultorio/pages/header/header.component';
 
 @NgModule({
-  declarations: [AppComponent, ErrorPageComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -18,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     MaterialModule,
     PrimeNgModule,
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

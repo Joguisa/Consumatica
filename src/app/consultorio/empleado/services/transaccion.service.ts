@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 
 import { map } from 'rxjs/operators';
 
-import { EmpleadoService } from './empleado.service';
-import { TipoEmpleadoService } from './tipo-empleado.service';
-import { ServiciosService } from './servicios.service';
 import { Empleado } from '../interfaces/empleado';
-import { Servicio } from '../interfaces/servicio';
-import { TipoEmpleado } from '../interfaces/tipo-empleado';
+import { Servicio } from '../../servicios/interfaces/servicio';
+import { TipoEmpleado } from '../../tipo-empleado/interfaces/tipo-empleado';
 import { Observable, catchError, forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { EmpleadoService } from './empleado.service';
+import { TipoEmpleadoService } from '../../tipo-empleado/services/tipo-empleado.service';
+import { ServiciosService } from '../../servicios/services/servicios.service';
 
 @Injectable({
   providedIn: 'root',

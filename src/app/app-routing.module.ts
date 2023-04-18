@@ -3,43 +3,60 @@ import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent } from './consultorio/pages/landing/landing.component';
 import { ErrorPageComponent } from './shared/error-page/error-page.component';
 import { AuthGuard } from './auth/guard/auth.guard';
-import { AsignarTurnoComponent } from './consultorio/pages/asignar-turno/asignar-turno.component';
-import { HomeComponent } from './consultorio/pages/home/home.component';
+import { HomeComponent } from './shared/home/home.component';
 
 const routes: Routes = [
+  {
+    path: 'landing',
+    component: LandingComponent,
+  },
+  { path: '', pathMatch: 'full', redirectTo: 'landing' },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'consultorio',
-    loadChildren: () =>
-      import('./consultorio/consultorio.module').then(
-        (m) => m.ConsultorioModule
-      ),
+    component: HomeComponent,
     // canLoad: [AuthGuard],
     // canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'empleado',
+        loadChildren: () =>
+          import('./consultorio/empleado/empleado.module').then(
+            (m) => m.EmpleadoModule
+          ),
+      },
+      {
+        path: 'paciente',
+        loadChildren: () =>
+          import('./consultorio/paciente/paciente.module').then(
+            (m) => m.PacienteModule
+          ),
+      },
+      {
+        path: 'servicios',
+        loadChildren: () =>
+          import('./consultorio/servicios/servicios.module').then(
+            (m) => m.ServiciosModule
+          ),
+      },
+      {
+        path: 'tipo-empleado',
+        loadChildren: () =>
+          import('./consultorio/tipo-empleado/tipo-empleado.module').then(
+            (m) => m.TipoEmpleadoModule
+          ),
+      },
+    ],
   },
-  // {
-  //   path: 'turno',
-  //   component: AsignarTurnoComponent,
-  // },
 
   {
-    path: 'landing',
-    component: LandingComponent,
-  },
-  {
-    path: '404',
+    path: '**',
     component: ErrorPageComponent,
   },
-  // {
-  //   path: '**',
-  //   redirectTo: '404',
-  // },
-  { path: '', pathMatch: 'full', redirectTo: '/landing' },
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],

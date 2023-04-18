@@ -1,17 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AsignacionTipoEmpleado } from '../../interfaces/asignacion-tipo-empleado';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { EmpleadoService } from '../../services/empleado.service';
-import { TipoEmpleadoService } from '../../services/tipo-empleado.service';
 import { UtilidadService } from 'src/app/shared/services/utilidad.service';
-import { TipoEmpleado } from '../../interfaces/tipo-empleado';
 import { Empleado } from '../../interfaces/empleado';
-import { ServiciosService } from '../../services/servicios.service';
-import { Servicio } from '../../interfaces/servicio';
-import { TransaccionService } from '../../services/transaccion.service';
 import { forkJoin } from 'rxjs';
+import { Servicio } from 'src/app/consultorio/servicios/interfaces/servicio';
+import { TipoEmpleado } from 'src/app/consultorio/tipo-empleado/interfaces/tipo-empleado';
+import { TipoEmpleadoService } from 'src/app/consultorio/tipo-empleado/services/tipo-empleado.service';
+import { ServiciosService } from 'src/app/consultorio/servicios/services/servicios.service';
+import { TransaccionService } from '../../services/transaccion.service';
 
 @Component({
   selector: 'app-dialog-empleado',
