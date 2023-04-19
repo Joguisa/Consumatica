@@ -8,14 +8,13 @@ import { MaterialModule } from './shared/material/material.module';
 import { PrimeNgModule } from './shared/prime-ng/prime-ng.module';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
-import { HeaderComponent } from './consultorio/pages/header/header.component';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    BrowserModule,
     HttpClientModule,
     MaterialModule,
     PrimeNgModule,

@@ -46,6 +46,11 @@ export class DialogEmpleadoComponent implements OnInit {
       // nombreServicio: ['', Validators.required],
     });
 
+    if (this.datosEmpleado != null) {
+      this.tituloAccion = 'Editar';
+      this.botonAccion = 'Actualizar';
+    }
+
     this._tiposervice.getTipos().subscribe({
       next: (data) => {
         if (data) this.listaTipo = data;
@@ -60,6 +65,7 @@ export class DialogEmpleadoComponent implements OnInit {
       error: (e) => {},
     });
   }
+
   get cedula() {
     return this.formEmpleado.get('cedula');
   }

@@ -6,3 +6,12 @@
     font-weight: 500;
     line-height: 28px;
 }
+
+table{
+    width: 100%;
+}
+
+mat-form-field{
+    font-size: 14px;
+    width: 100%;
+}

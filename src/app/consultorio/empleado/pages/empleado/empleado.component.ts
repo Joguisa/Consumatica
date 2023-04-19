@@ -28,7 +28,7 @@ export class EmpleadoComponent implements AfterViewInit, OnInit {
     'servicio',
     'acciones',
   ];
-  dataSource = new MatTableDataSource<Empleado>();
+  dataListaEmpleado = new MatTableDataSource<Empleado>();
 
   constructor(
     private router: Router,
@@ -57,14 +57,14 @@ export class EmpleadoComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    this.dataListaEmpleado.paginator = this.paginator;
   }
 
   mostrarEmpleados() {
     this._empleadoService.getEmpleado().subscribe({
       next: (dataResponse) => {
         // this.dataSource.data = dataResponse;
-        this.dataSource.data = dataResponse.map((empleado) => ({
+        this.dataListaEmpleado.data = dataResponse.map((empleado) => ({
           id: empleado.id,
           nombres: empleado.nombres,
           apellidos: empleado.apellidos,
@@ -130,17 +130,17 @@ export class EmpleadoComponent implements AfterViewInit, OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+    this.dataListaEmpleado.filter = filterValue.trim().toLowerCase();
+    if (this.dataListaEmpleado.paginator) {
+      this.dataListaEmpleado.paginator.firstPage();
     }
     // Agregamos el siguiente código para filtrar por cédula
     const filterCedula = filterValue.trim().toLowerCase();
-    this.dataSource.filterPredicate = (data, filter) => {
+    this.dataListaEmpleado.filterPredicate = (data, filter) => {
       const cedula = data.cedula.trim().toLowerCase();
       return cedula.includes(filter);
     };
-    this.dataSource.filter = filterCedula;
+    this.dataListaEmpleado.filter = filterCedula;
   }
 
   exportPdf() {}
