@@ -6,6 +6,7 @@ import { DialogTipoEmpleadoComponent } from './modales/dialog-tipo-empleado/dial
 import { TipoEmpleadoComponent } from './pages/tipo-empleado/tipo-empleado.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { PrimeNgModule } from 'src/app/shared/prime-ng/prime-ng.module';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 @NgModule({
   declarations: [DialogTipoEmpleadoComponent, TipoEmpleadoComponent],
@@ -15,6 +16,7 @@ import { PrimeNgModule } from 'src/app/shared/prime-ng/prime-ng.module';
     TipoEmpleadoRoutingModule,
     MaterialModule,
     PrimeNgModule,
+    ComponentsModule,
   ],
 })
 export class TipoEmpleadoModule {}

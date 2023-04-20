@@ -6,6 +6,7 @@ import { ServiciosComponent } from './pages/servicios/servicios.component';
 import { DialogServicioComponent } from './modales/dialog-servicio/dialog-servicio.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { PrimeNgModule } from 'src/app/shared/prime-ng/prime-ng.module';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 @NgModule({
   declarations: [ServiciosComponent, DialogServicioComponent],
@@ -15,6 +16,7 @@ import { PrimeNgModule } from 'src/app/shared/prime-ng/prime-ng.module';
     ServiciosRoutingModule,
     MaterialModule,
     PrimeNgModule,
+    ComponentsModule,
   ],
 })
 export class ServiciosModule {}

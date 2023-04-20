@@ -8,6 +8,7 @@ import { ServiciosService } from '../../services/servicios.service';
 import { DialogServicioComponent } from '../../modales/dialog-servicio/dialog-servicio.component';
 
 import Swal from 'sweetalert2';
+import { TableColumn } from 'src/app/shared/components/models/table-column';
 
 @Component({
   selector: 'app-servicios',
@@ -15,9 +16,17 @@ import Swal from 'sweetalert2';
   styleUrls: ['./servicios.component.css'],
 })
 export class ServiciosComponent implements AfterViewInit, OnInit {
+  tableColumns: TableColumn[] = [];
+
   columnasTabla: string[] = ['nombreServicio', 'acciones'];
-  dataInicio: Servicio[] = [];
-  dataListaServicios = new MatTableDataSource(this.dataInicio);
+  dataListaServicios = new MatTableDataSource<Servicio>();
+
+  setTableColumns() {
+    this.tableColumns = [
+      { label: 'Servicio', def: 'nombreServicio', datakey: 'nombreServicio' },
+      { label: 'Acciones', def: 'acciones', datakey: '' },
+    ];
+  }
 
   @ViewChild(MatPaginator) paginacionTabla!: MatPaginator;
 
@@ -45,6 +54,7 @@ export class ServiciosComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.mostrarServicios();
+    this.setTableColumns();
   }
 
   ngAfterViewInit(): void {

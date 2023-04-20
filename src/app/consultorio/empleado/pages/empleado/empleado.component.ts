@@ -43,7 +43,7 @@ export class EmpleadoComponent implements AfterViewInit, OnInit {
         def: 'servicio',
         datakey: 'asistencia',
       },
-      { label: '', def: 'acciones', datakey: '' },
+      { label: 'Acciones', def: 'acciones', datakey: '' },
     ];
   }
 

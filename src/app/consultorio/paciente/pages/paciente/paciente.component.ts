@@ -11,6 +11,7 @@ import { PacienteService } from '../../services/paciente.service';
 import { Paciente } from '../../interfaces/paciente';
 
 import Swal from 'sweetalert2';
+import { TableColumn } from 'src/app/shared/components/models/table-column';
 
 @Component({
   selector: 'app-paciente',
@@ -18,9 +19,19 @@ import Swal from 'sweetalert2';
   styleUrls: ['./paciente.component.css'],
 })
 export class PacienteComponent implements AfterViewInit, OnInit {
+  tableColumns: TableColumn[] = [];
+
   columnasTabla: string[] = ['cedula', 'nombre', 'apellido', 'acciones'];
   dataInicio: Paciente[] = [];
-  dataListaPacientes = new MatTableDataSource(this.dataInicio);
+  dataListaPacientes = new MatTableDataSource<Paciente>();
+
+  setTableColumns() {
+    this.tableColumns = [
+      { label: 'Cedula', def: 'cedula', datakey: 'cedula' },
+      { label: 'Nombre', def: 'nombre', datakey: 'nombres' },
+      { label: 'Apellido', def: 'apellido', datakey: 'apellidos' },
+    ];
+  }
 
   @ViewChild(MatPaginator) paginacionTabla!: MatPaginator;
   constructor(
@@ -48,6 +59,7 @@ export class PacienteComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.mostrarPacientes();
+    this.setTableColumns();
   }
 
   ngAfterViewInit(): void {

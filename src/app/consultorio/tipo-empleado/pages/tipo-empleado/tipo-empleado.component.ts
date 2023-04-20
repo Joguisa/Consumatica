@@ -12,6 +12,7 @@ import { TipoEmpleadoService } from '../../services/tipo-empleado.service';
 import { DialogTipoEmpleadoComponent } from '../../modales/dialog-tipo-empleado/dialog-tipo-empleado.component';
 
 import Swal from 'sweetalert2';
+import { TableColumn } from 'src/app/shared/components/models/table-column';
 
 @Component({
   selector: 'app-tipo-empleado',
@@ -19,9 +20,16 @@ import Swal from 'sweetalert2';
   styleUrls: ['./tipo-empleado.component.css'],
 })
 export class TipoEmpleadoComponent implements AfterViewInit, OnInit {
+  tableColumns: TableColumn[] = [];
   columnasTabla: string[] = ['nombreTipo', 'acciones'];
-  dataInicio: TipoEmpleado[] = [];
-  dataListaTipoEmpleados = new MatTableDataSource(this.dataInicio);
+  dataListaTipoEmpleados = new MatTableDataSource<TipoEmpleado>();
+
+  setTableColumns() {
+    this.tableColumns = [
+      { label: 'Tipo Empleado', def: 'nombreTipo', datakey: 'nombreTipo' },
+      { label: 'Acciones', def: 'acciones', datakey: '' },
+    ];
+  }
 
   @ViewChild(MatPaginator) paginacionTabla!: MatPaginator;
 
@@ -49,6 +57,7 @@ export class TipoEmpleadoComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.mostrarTipoEmpleado();
+    this.setTableColumns();
   }
 
   ngAfterViewInit(): void {
