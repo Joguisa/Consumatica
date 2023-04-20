@@ -7,10 +7,17 @@ import { EmpleadoComponent } from './pages/empleado/empleado.component';
 import { DialogEmpleadoComponent } from './modales/dialog-empleado/dialog-empleado.component';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { PrimeNgModule } from 'src/app/shared/prime-ng/prime-ng.module';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 @NgModule({
   declarations: [EmpleadoComponent, DialogEmpleadoComponent],
-  exports: [],
-  imports: [CommonModule, EmpleadoRoutingModule, MaterialModule, PrimeNgModule],
+  exports: [EmpleadoComponent, DialogEmpleadoComponent],
+  imports: [
+    CommonModule,
+    EmpleadoRoutingModule,
+    MaterialModule,
+    PrimeNgModule,
+    ComponentsModule,
+  ],
 })
 export class EmpleadoModule {}

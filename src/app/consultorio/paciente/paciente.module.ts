@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { PacienteRoutingModule } from './paciente-routing.module';
 import { PacienteComponent } from './pages/paciente/paciente.component';
 import { DialogPacienteComponent } from './modales/dialog-paciente/dialog-paciente.component';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { PrimeNgModule } from 'src/app/shared/prime-ng/prime-ng.module';
 

@@ -1,1 +1,15 @@
-<p>datatable works!</p>
+<table mat-table [dataSource]="dataListaEmpleado">
+  <ng-container *ngFor="let column of tableColumns" [matColumnDef]="column.def">
+    <th mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
+    <td mat-cell *matCellDef="let element">{{ element[column.datakey] }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">
+      No hay datos que coincidan con el filtro
+    </td>
+  </tr>
+</table>

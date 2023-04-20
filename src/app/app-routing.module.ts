@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent } from './consultorio/pages/landing/landing.component';
 import { ErrorPageComponent } from './shared/error-page/error-page.component';
-import { AuthGuard } from './auth/guard/auth.guard';
 import { HomeComponent } from './shared/home/home.component';
 
 const routes: Routes = [
@@ -18,8 +17,6 @@ const routes: Routes = [
   {
     path: 'consultorio',
     component: HomeComponent,
-    // canLoad: [AuthGuard],
-    // canActivate: [AuthGuard],
     children: [
       {
         path: 'empleado',

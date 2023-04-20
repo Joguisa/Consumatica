@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
   loadSpinner() {
     this.mostrarLoading = true;
     setTimeout(() => {
-      this.router.navigate(['/consultorio/empleado']);
+      this.router.navigate(['/consultorio/empleado/empleado']);
     }, 1000);
   }
 }

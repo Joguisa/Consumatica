@@ -24,67 +24,37 @@
       <input matInput (keyup)="applyFilter($event)" #input />
     </mat-form-field>
 
-    <div class="mat-elevation-z2" style="overflow-x: auto">
-      <table mat-table [dataSource]="dataListaEmpleado">
-        <!-- Position Column -->
+    <!--<div class="mat-elevation-z2" style="overflow-x: auto">
+       <table mat-table [dataSource]="dataListaEmpleado">
         <ng-container matColumnDef="cedula">
           <th mat-header-cell *matHeaderCellDef>Cedula</th>
           <td mat-cell *matCellDef="let element">{{ element.cedula }}</td>
         </ng-container>
 
-        <!-- Nombre Column -->
         <ng-container matColumnDef="nombre">
           <th mat-header-cell *matHeaderCellDef>Nombre</th>
           <td mat-cell *matCellDef="let element">{{ element.nombres }}</td>
         </ng-container>
 
-        <!-- Apellido Column -->
         <ng-container matColumnDef="apellido">
           <th mat-header-cell *matHeaderCellDef>Apellido</th>
           <td mat-cell *matCellDef="let element">{{ element.apellidos }}</td>
         </ng-container>
 
-        <!-- Cargo Column -->
         <ng-container matColumnDef="tipo">
           <th mat-header-cell *matHeaderCellDef>Cargo</th>
           <td mat-cell *matCellDef="let element">
             {{ element.cargo }}
-            <!-- {{
-              element.asignacion.lenght > 0
-                ? element.asignacion[0].tipoEmpleado.nombreTipo
-                : ""
-            }} -->
           </td>
         </ng-container>
 
         <ng-container matColumnDef="servicio">
           <th mat-header-cell *matHeaderCellDef>Servicio</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.servicio?.tipoServicio?.nombreServicio }}
+            {{ element.asistencia }}
           </td>
         </ng-container>
 
-        <!-- Actions Column -->
-        <ng-container matColumnDef="acciones">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element">
-            <button
-              mat-icon-button
-              color="primary"
-              (click)="editarEmpleado(element)"
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
-
-            <button
-              mat-icon-button
-              color="warn"
-              (click)="eliminarEmpleado(element)"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
@@ -94,8 +64,14 @@
             No hay datos que coincidan con el filtro "{{ input.value }}"
           </td>
         </tr>
-      </table>
+      </table> 
+    </div>-->
 
+    <div class="mat-elevation-z2" style="overflow-x: auto">
+      <app-datatable
+        [data]="dataListaEmpleado"
+        [columns]="tableColumns"
+      ></app-datatable>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
       </mat-paginator>
     </div>

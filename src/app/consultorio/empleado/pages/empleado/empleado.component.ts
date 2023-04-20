@@ -13,6 +13,7 @@ import { UtilidadService } from 'src/app/shared/services/utilidad.service';
 import { DialogEmpleadoComponent } from '../../modales/dialog-empleado/dialog-empleado.component';
 
 import Swal from 'sweetalert2';
+import { TableColumn } from 'src/app/shared/components/models/table-column';
 
 @Component({
   selector: 'app-empleado',
@@ -20,6 +21,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./empleado.component.css'],
 })
 export class EmpleadoComponent implements AfterViewInit, OnInit {
+  tableColumns: TableColumn[] = [];
   displayedColumns: string[] = [
     'cedula',
     'nombre',
@@ -30,29 +32,32 @@ export class EmpleadoComponent implements AfterViewInit, OnInit {
   ];
   dataListaEmpleado = new MatTableDataSource<Empleado>();
 
+  setTableColumns() {
+    this.tableColumns = [
+      { label: 'Cedula', def: 'cedula', datakey: 'cedula' },
+      { label: 'Nombre', def: 'nombre', datakey: 'nombres' },
+      { label: 'Apellido', def: 'apellido', datakey: 'apellidos' },
+      { label: 'Cargo', def: 'tipo', datakey: 'cargo' },
+      {
+        label: 'Servicio',
+        def: 'servicio',
+        datakey: 'asistencia',
+      },
+      { label: '', def: 'acciones', datakey: '' },
+    ];
+  }
+
+  ngOnInit(): void {
+    this.mostrarEmpleados();
+    this.setTableColumns();
+  }
+
   constructor(
     private router: Router,
     public dialog: MatDialog,
     private _empleadoService: EmpleadoService,
     private _utilidadServicio: UtilidadService
   ) {}
-
-  // agregarEmpleado() {
-  //   this.dialog
-  //     .open(DialogEmpleadoComponent, {
-  //       disableClose: true,
-  //     })
-  //     .afterClosed()
-  //     .subscribe((resultado) => {
-  //       if (resultado === 'creado') {
-  //         this.mostrarEmpleados();
-  //       }
-  //     });
-  // }
-
-  ngOnInit(): void {
-    this.mostrarEmpleados();
-  }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -70,7 +75,7 @@ export class EmpleadoComponent implements AfterViewInit, OnInit {
           apellidos: empleado.apellidos,
           cedula: empleado.cedula,
           cargo: empleado.asignacion?.tipoEmpleado.nombreTipo,
-          servicio: empleado.servicio,
+          asistencia: empleado.servicio?.tipoServicio.nombreServicio,
         }));
       },
       error: (e) => {},
