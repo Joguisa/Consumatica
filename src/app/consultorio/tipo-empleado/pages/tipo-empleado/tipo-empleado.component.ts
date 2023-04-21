@@ -12,26 +12,33 @@ import { TipoEmpleadoService } from '../../services/tipo-empleado.service';
 import { DialogTipoEmpleadoComponent } from '../../modales/dialog-tipo-empleado/dialog-tipo-empleado.component';
 
 import Swal from 'sweetalert2';
-import { TableColumn } from 'src/app/shared/components/models/table-column';
+import { TableColumn } from 'src/app/shared/components/models/table-column.model';
+import { TableConfig } from 'src/app/shared/components/models/table-config.model';
+import { TableAction } from 'src/app/shared/components/models/table-action.model';
+import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum';
 
 @Component({
   selector: 'app-tipo-empleado',
   templateUrl: './tipo-empleado.component.html',
   styleUrls: ['./tipo-empleado.component.css'],
 })
-export class TipoEmpleadoComponent implements AfterViewInit, OnInit {
+export class TipoEmpleadoComponent implements OnInit {
   tableColumns: TableColumn[] = [];
-  columnasTabla: string[] = ['nombreTipo', 'acciones'];
-  dataListaTipoEmpleados = new MatTableDataSource<TipoEmpleado>();
+  // columnasTabla: string[] = ['nombreTipo', 'acciones'];
+  dataInicio: TipoEmpleado[] = [];
+  dataListTipo = new MatTableDataSource<TipoEmpleado>(this.dataInicio);
+  tableConfig: TableConfig = {
+    isPaginable: true,
+    showActions: true,
+  };
 
   setTableColumns() {
     this.tableColumns = [
       { label: 'Tipo Empleado', def: 'nombreTipo', datakey: 'nombreTipo' },
-      { label: 'Acciones', def: 'acciones', datakey: '' },
     ];
   }
 
-  @ViewChild(MatPaginator) paginacionTabla!: MatPaginator;
+  // @ViewChild(MatPaginator) paginacionTabla!: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
@@ -43,7 +50,7 @@ export class TipoEmpleadoComponent implements AfterViewInit, OnInit {
     this._serviciosTipoEmpleado.getTipos().subscribe({
       next: (data) => {
         if (data) {
-          this.dataListaTipoEmpleados.data = data;
+          this.dataListTipo.data = data;
         } else {
           this._utilidadServicio.mostrarAlerta(
             'No se encontraron datos',
@@ -60,9 +67,9 @@ export class TipoEmpleadoComponent implements AfterViewInit, OnInit {
     this.setTableColumns();
   }
 
-  ngAfterViewInit(): void {
-    this.dataListaTipoEmpleados.paginator = this.paginacionTabla;
-  }
+  // ngAfterViewInit(): void {
+  //   this.dataListTipo.paginator = this.paginacionTabla;
+  // }
 
   applyFilter(event: Event) {
     // const filterValue = (event.target as HTMLInputElement).value;
@@ -128,5 +135,17 @@ export class TipoEmpleadoComponent implements AfterViewInit, OnInit {
         );
       }
     });
+  }
+
+  onTableAction(tableAction: TableAction) {
+    console.log(tableAction);
+    switch (tableAction.action) {
+      case TABLE_ACTION.EDIT:
+        this.editarTipoEmpleado(tableAction.element);
+        break;
+      case TABLE_ACTION.DELETE:
+        this.eliminarTipoEmpleado(tableAction.element);
+        break;
+    }
   }
 }

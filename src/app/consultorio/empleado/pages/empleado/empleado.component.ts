@@ -13,24 +13,23 @@ import { UtilidadService } from 'src/app/shared/services/utilidad.service';
 import { DialogEmpleadoComponent } from '../../modales/dialog-empleado/dialog-empleado.component';
 
 import Swal from 'sweetalert2';
-import { TableColumn } from 'src/app/shared/components/models/table-column';
+import { TableColumn } from 'src/app/shared/components/models/table-column.model';
+import { TableConfig } from 'src/app/shared/components/models/table-config.model';
+import { TableAction } from 'src/app/shared/components/models/table-action.model';
+import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum';
 
 @Component({
   selector: 'app-empleado',
   templateUrl: './empleado.component.html',
   styleUrls: ['./empleado.component.css'],
 })
-export class EmpleadoComponent implements AfterViewInit, OnInit {
+export class EmpleadoComponent implements OnInit {
   tableColumns: TableColumn[] = [];
-  displayedColumns: string[] = [
-    'cedula',
-    'nombre',
-    'apellido',
-    'tipo',
-    'servicio',
-    'acciones',
-  ];
-  dataListaEmpleado = new MatTableDataSource<Empleado>();
+  tableConfig: TableConfig = {
+    isPaginable: true,
+    showActions: true,
+  };
+  dataListEmpleado = new MatTableDataSource<Empleado>();
 
   setTableColumns() {
     this.tableColumns = [
@@ -43,13 +42,12 @@ export class EmpleadoComponent implements AfterViewInit, OnInit {
         def: 'servicio',
         datakey: 'asistencia',
       },
-      { label: 'Acciones', def: 'acciones', datakey: '' },
     ];
   }
 
   ngOnInit(): void {
-    this.mostrarEmpleados();
     this.setTableColumns();
+    this.mostrarEmpleados();
   }
 
   constructor(
@@ -59,17 +57,17 @@ export class EmpleadoComponent implements AfterViewInit, OnInit {
     private _utilidadServicio: UtilidadService
   ) {}
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  ngAfterViewInit() {
-    this.dataListaEmpleado.paginator = this.paginator;
-  }
+  // ngAfterViewInit() {
+  //   this.dataListEmpleado.paginator = this.paginator;
+  // }
 
   mostrarEmpleados() {
     this._empleadoService.getEmpleado().subscribe({
       next: (dataResponse) => {
         // this.dataSource.data = dataResponse;
-        this.dataListaEmpleado.data = dataResponse.map((empleado) => ({
+        this.dataListEmpleado.data = dataResponse.map((empleado) => ({
           id: empleado.id,
           nombres: empleado.nombres,
           apellidos: empleado.apellidos,
@@ -133,22 +131,30 @@ export class EmpleadoComponent implements AfterViewInit, OnInit {
     });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataListaEmpleado.filter = filterValue.trim().toLowerCase();
-    if (this.dataListaEmpleado.paginator) {
-      this.dataListaEmpleado.paginator.firstPage();
+  onTableAction(tableAction: TableAction) {
+    console.log(tableAction);
+    switch (tableAction.action) {
+      case TABLE_ACTION.EDIT:
+        this.editarEmpleado(tableAction.element);
+        break;
+      case TABLE_ACTION.DELETE:
+        this.eliminarEmpleado(tableAction.element);
+        break;
     }
-    // Agregamos el siguiente código para filtrar por cédula
-    const filterCedula = filterValue.trim().toLowerCase();
-    this.dataListaEmpleado.filterPredicate = (data, filter) => {
-      const cedula = data.cedula.trim().toLowerCase();
-      return cedula.includes(filter);
-    };
-    this.dataListaEmpleado.filter = filterCedula;
   }
 
-  exportPdf() {}
-
-  exportExcel() {}
+  applyFilter(event: Event) {
+    // const filterValue = (event.target as HTMLInputElement).value;
+    // this.dataSource.filter = filterValue.trim().toLowerCase();
+    // if (this.dataSource.paginator) {
+    //   this.dataSource.paginator.firstPage();
+    // }
+    // // Agregamos el siguiente código para filtrar por cédula
+    // const filterCedula = filterValue.trim().toLowerCase();
+    // this.dataSource.filterPredicate = (data, filter) => {
+    //   const cedula = data.cedula.trim().toLowerCase();
+    //   return cedula.includes(filter);
+    // };
+    // this.dataSource.filter = filterCedula;
+  }
 }

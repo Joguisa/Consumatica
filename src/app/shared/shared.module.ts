@@ -8,6 +8,6 @@ import { AppRoutingModule } from '../app-routing.module';
 @NgModule({
   declarations: [HomeComponent],
   exports: [HomeComponent],
-  imports: [CommonModule, MaterialModule, PrimeNgModule, AppRoutingModule],
+  imports: [CommonModule, MaterialModule, PrimeNgModule],
 })
 export class SharedModule {}

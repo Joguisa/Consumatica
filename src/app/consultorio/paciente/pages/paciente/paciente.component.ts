@@ -11,19 +11,27 @@ import { PacienteService } from '../../services/paciente.service';
 import { Paciente } from '../../interfaces/paciente';
 
 import Swal from 'sweetalert2';
-import { TableColumn } from 'src/app/shared/components/models/table-column';
+import { TableColumn } from 'src/app/shared/components/models/table-column.model';
+import { TableConfig } from 'src/app/shared/components/models/table-config.model';
+import { TableAction } from 'src/app/shared/components/models/table-action.model';
+import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum';
 
 @Component({
   selector: 'app-paciente',
   templateUrl: './paciente.component.html',
   styleUrls: ['./paciente.component.css'],
 })
-export class PacienteComponent implements AfterViewInit, OnInit {
+export class PacienteComponent implements OnInit {
   tableColumns: TableColumn[] = [];
 
-  columnasTabla: string[] = ['cedula', 'nombre', 'apellido', 'acciones'];
+  // columnasTabla: string[] = ['cedula', 'nombre', 'apellido', 'acciones'];
   dataInicio: Paciente[] = [];
-  dataListaPacientes = new MatTableDataSource<Paciente>();
+  dataListPaciente = new MatTableDataSource<Paciente>();
+
+  tableConfig: TableConfig = {
+    isPaginable: true,
+    showActions: true,
+  };
 
   setTableColumns() {
     this.tableColumns = [
@@ -33,7 +41,8 @@ export class PacienteComponent implements AfterViewInit, OnInit {
     ];
   }
 
-  @ViewChild(MatPaginator) paginacionTabla!: MatPaginator;
+  // @ViewChild(MatPaginator) paginacionTabla!: MatPaginator;
+
   constructor(
     public dialog: MatDialog,
     private _utilidadServicio: UtilidadService,
@@ -46,7 +55,7 @@ export class PacienteComponent implements AfterViewInit, OnInit {
       next: (data) => {
         if (data)
           //if(data.status) para verificar si existen registros
-          this.dataListaPacientes.data = data; // data.value
+          this.dataListPaciente.data = data; // data.value
         else
           this._utilidadServicio.mostrarAlerta(
             'No se encontraron datos',
@@ -62,23 +71,23 @@ export class PacienteComponent implements AfterViewInit, OnInit {
     this.setTableColumns();
   }
 
-  ngAfterViewInit(): void {
-    this.dataListaPacientes.paginator = this.paginacionTabla;
-  }
+  // ngAfterViewInit(): void {
+  //   this.dataListPaciente.paginator = this.paginacionTabla;
+  // }
 
   aplicarFiltroTabla(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataListaPacientes.filter = filterValue.trim().toLowerCase();
-    if (this.dataListaPacientes.paginator) {
-      this.dataListaPacientes.paginator.firstPage();
+    this.dataListPaciente.filter = filterValue.trim().toLowerCase();
+    if (this.dataListPaciente.paginator) {
+      this.dataListPaciente.paginator.firstPage();
     }
     // Agregamos el siguiente código para filtrar por cédula
     const filterCedula = filterValue.trim().toLowerCase();
-    this.dataListaPacientes.filterPredicate = (data, filter) => {
+    this.dataListPaciente.filterPredicate = (data, filter) => {
       const cedula = data.cedula.trim().toLowerCase();
       return cedula.includes(filter);
     };
-    this.dataListaPacientes.filter = filterCedula;
+    this.dataListPaciente.filter = filterCedula;
   }
 
   agregarPaciente() {
@@ -105,6 +114,18 @@ export class PacienteComponent implements AfterViewInit, OnInit {
           this.mostrarPacientes();
         }
       });
+  }
+
+  onTableAction(tableAction: TableAction) {
+    console.log(tableAction);
+    switch (tableAction.action) {
+      case TABLE_ACTION.EDIT:
+        this.editarPaciente(tableAction.element);
+        break;
+      case TABLE_ACTION.DELETE:
+        this.eliminarPaciente(tableAction.element);
+        break;
+    }
   }
 
   eliminarPaciente(paciente: Paciente) {
@@ -134,22 +155,6 @@ export class PacienteComponent implements AfterViewInit, OnInit {
             );
           }
         );
-        // this._pacientesService.deletePaciente(paciente.cedula).subscribe({
-        //   next: (data) => {
-        //     if (data) {
-        //       this._utilidadServicio.mostrarAlerta(
-        //         'El paciente fue eliminado',
-        //         ''
-        //       );
-        //       this.mostrarPacientes();
-        //     } else
-        //       this._utilidadServicio.mostrarAlerta(
-        //         'Error al eliminar el paciente',
-        //         ''
-        //       );
-        //   },
-        //   error: (e) => {},
-        // });
       }
     });
   }

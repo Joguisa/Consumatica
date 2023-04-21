@@ -74,11 +74,11 @@
 
     <div class="mat-elevation-z2" style="overflow-x: auto">
       <app-datatable
-        [data]="dataListaPacientes"
+        [data]="dataListPaciente.data"
         [columns]="tableColumns"
+        [config]="tableConfig"
+        (action)="onTableAction($event)"
       ></app-datatable>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
-      </mat-paginator>
     </div>
   </mat-card-content>
 </mat-card>

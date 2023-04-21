@@ -8,27 +8,33 @@ import { ServiciosService } from '../../services/servicios.service';
 import { DialogServicioComponent } from '../../modales/dialog-servicio/dialog-servicio.component';
 
 import Swal from 'sweetalert2';
-import { TableColumn } from 'src/app/shared/components/models/table-column';
+import { TableColumn } from 'src/app/shared/components/models/table-column.model';
+import { TableConfig } from 'src/app/shared/components/models/table-config.model';
+import { TableAction } from 'src/app/shared/components/models/table-action.model';
+import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum';
 
 @Component({
   selector: 'app-servicios',
   templateUrl: './servicios.component.html',
   styleUrls: ['./servicios.component.css'],
 })
-export class ServiciosComponent implements AfterViewInit, OnInit {
+export class ServiciosComponent implements OnInit {
   tableColumns: TableColumn[] = [];
 
-  columnasTabla: string[] = ['nombreServicio', 'acciones'];
-  dataListaServicios = new MatTableDataSource<Servicio>();
+  // columnasTabla: string[] = ['nombreServicio', 'acciones'];
+  dataListServicio = new MatTableDataSource<Servicio>();
+  tableConfig: TableConfig = {
+    isPaginable: true,
+    showActions: true,
+  };
 
   setTableColumns() {
     this.tableColumns = [
       { label: 'Servicio', def: 'nombreServicio', datakey: 'nombreServicio' },
-      { label: 'Acciones', def: 'acciones', datakey: '' },
     ];
   }
 
-  @ViewChild(MatPaginator) paginacionTabla!: MatPaginator;
+  // @ViewChild(MatPaginator) paginacionTabla!: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
@@ -40,7 +46,7 @@ export class ServiciosComponent implements AfterViewInit, OnInit {
     this._serviciosServicio.getServicios().subscribe({
       next: (data) => {
         if (data) {
-          this.dataListaServicios.data = data;
+          this.dataListServicio.data = data;
         } else {
           this._utilidadServicio.mostrarAlerta(
             'No se encontraron datos',
@@ -57,9 +63,9 @@ export class ServiciosComponent implements AfterViewInit, OnInit {
     this.setTableColumns();
   }
 
-  ngAfterViewInit(): void {
-    this.dataListaServicios.paginator = this.paginacionTabla;
-  }
+  // ngAfterViewInit(): void {
+  //   this.dataListServicio.paginator = this.paginacionTabla;
+  // }
 
   applyFilter(event: Event) {
     // const filterValue = (event.target as HTMLInputElement).value;
@@ -124,5 +130,17 @@ export class ServiciosComponent implements AfterViewInit, OnInit {
         );
       }
     });
+  }
+
+  onTableAction(tableAction: TableAction) {
+    console.log(tableAction);
+    switch (tableAction.action) {
+      case TABLE_ACTION.EDIT:
+        this.editarServicio(tableAction.element);
+        break;
+      case TABLE_ACTION.DELETE:
+        this.eliminarServicio(tableAction.element);
+        break;
+    }
   }
 }
