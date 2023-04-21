@@ -12,6 +12,7 @@
     </td>
   </ng-container>
 
+  <!-- Columns -->
   <ng-container *ngFor="let column of tableColumns" [matColumnDef]="column.def">
     <th mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
     <td mat-cell *matCellDef="let element">{{ element[column.datakey] }}</td>

@@ -4,14 +4,11 @@
 
 <mat-card style="margin: 20px 40px 40px 40px">
   <mat-card-title>
-    <button
-      mat-raised-button
-      color="primary"
-      style="margin: 5px"
-      (click)="agregarPaciente()"
-    >
-      <mat-icon mat-list-icon>add</mat-icon>Nuevo Paciente
-    </button>
+    <app-buttons
+      [colorBoton]="'primary'"
+      [nombreBoton]="'Nuevo Paciente'"
+      (clickBoton)="agregarPaciente()"
+    ></app-buttons>
   </mat-card-title>
 
   <mat-divider></mat-divider>

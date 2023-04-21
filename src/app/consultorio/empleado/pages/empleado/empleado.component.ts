@@ -29,18 +29,23 @@ export class EmpleadoComponent implements OnInit {
     isPaginable: true,
     showActions: true,
   };
-  dataListEmpleado = new MatTableDataSource<Empleado>();
+  dataInicio: Empleado[] = [];
+  dataListEmpleado = new MatTableDataSource(this.dataInicio);
 
   setTableColumns() {
     this.tableColumns = [
       { label: 'Cedula', def: 'cedula', datakey: 'cedula' },
       { label: 'Nombre', def: 'nombre', datakey: 'nombres' },
       { label: 'Apellido', def: 'apellido', datakey: 'apellidos' },
-      { label: 'Cargo', def: 'tipo', datakey: 'cargo' },
+      {
+        label: 'Cargo',
+        def: 'tipo',
+        datakey: 'cargo',
+      },
       {
         label: 'Servicio',
         def: 'servicio',
-        datakey: 'asistencia',
+        datakey: 'nombreServicio',
       },
     ];
   }
@@ -73,7 +78,7 @@ export class EmpleadoComponent implements OnInit {
           apellidos: empleado.apellidos,
           cedula: empleado.cedula,
           cargo: empleado.asignacion?.tipoEmpleado.nombreTipo,
-          asistencia: empleado.servicio?.tipoServicio.nombreServicio,
+          nombreServicio: empleado.servicio?.tipoServicio.nombreServicio,
         }));
       },
       error: (e) => {},

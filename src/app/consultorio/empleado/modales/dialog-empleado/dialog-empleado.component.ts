@@ -42,7 +42,7 @@ export class DialogEmpleadoComponent implements OnInit {
       cedula: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       nombres: ['', Validators.required],
       apellidos: ['', Validators.required],
-      // nombreTipo: ['', Validators.required],
+      // nombreTipo: [''],
       // nombreServicio: ['', Validators.required],
     });
 
@@ -89,13 +89,6 @@ export class DialogEmpleadoComponent implements OnInit {
       cedula: this.formEmpleado.value.cedula,
       nombres: this.formEmpleado.value.nombres,
       apellidos: this.formEmpleado.value.apellidos,
-      asignacion: {
-        tipoEmpleado: this.formEmpleado.value.tipoEmpleado.nombreTipo,
-      },
-
-      servicio: {
-        tipoServicio: this.formEmpleado.value.tipoServicio.nombreServicio,
-      },
     };
 
     if (this.datosEmpleado == null) {
