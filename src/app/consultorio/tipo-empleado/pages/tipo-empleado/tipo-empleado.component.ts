@@ -16,6 +16,7 @@ import { TableColumn } from 'src/app/shared/components/models/table-column.model
 import { TableConfig } from 'src/app/shared/components/models/table-config.model';
 import { TableAction } from 'src/app/shared/components/models/table-action.model';
 import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum';
+import { ConfirmService } from 'src/app/shared/services/confirm.service';
 
 @Component({
   selector: 'app-tipo-empleado',
@@ -43,7 +44,8 @@ export class TipoEmpleadoComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private _utilidadServicio: UtilidadService,
-    private _serviciosTipoEmpleado: TipoEmpleadoService
+    private _serviciosTipoEmpleado: TipoEmpleadoService,
+    private _dialogServicio: ConfirmService
   ) {}
 
   mostrarTipoEmpleado() {
@@ -107,34 +109,32 @@ export class TipoEmpleadoComponent implements OnInit {
   }
 
   eliminarTipoEmpleado(tipoEmpleado: TipoEmpleado) {
-    Swal.fire({
-      title: '¿Desea eliminar el cargo?',
-      text: tipoEmpleado.nombreTipo,
-      icon: 'warning',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Si, eliminar',
-      showCancelButton: true,
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'No, volver',
-    }).then((resultado) => {
-      if (resultado.isConfirmed) {
-        this._serviciosTipoEmpleado.deleteTipos(tipoEmpleado.id).subscribe(
-          () => {
-            this._utilidadServicio.mostrarAlerta(
-              'El tipo empleado fue eliminado',
-              ''
-            );
-            this.mostrarTipoEmpleado();
-          },
-          (error) => {
-            this._utilidadServicio.mostrarAlerta(
-              'Error al eliminar el tipo empleado',
-              ''
-            );
-          }
-        );
-      }
-    });
+    this._dialogServicio
+      .confirmDialog({
+        title: '¿Esta usted seguro?',
+        message: 'Se eliminará el cargo: ',
+        datos: tipoEmpleado.nombreTipo,
+        confirmText: 'Si, eliminar',
+        cancelText: 'No, volver',
+      })
+      .subscribe((resultado) => {
+        if (resultado) {
+          this._serviciosTipoEmpleado
+            .deleteTipos(tipoEmpleado.id)
+            .subscribe(() => {
+              this._utilidadServicio.mostrarAlerta(
+                'El cargo fue eliminado',
+                ''
+              );
+              this.mostrarTipoEmpleado();
+            });
+        } else {
+          // this._utilidadServicio.mostrarAlerta(
+          //   'El empleado no fue eliminado',
+          //   ''
+          // );
+        }
+      });
   }
 
   onTableAction(tableAction: TableAction) {

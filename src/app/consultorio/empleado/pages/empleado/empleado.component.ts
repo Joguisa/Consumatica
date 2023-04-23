@@ -17,6 +17,7 @@ import { TableColumn } from 'src/app/shared/components/models/table-column.model
 import { TableConfig } from 'src/app/shared/components/models/table-config.model';
 import { TableAction } from 'src/app/shared/components/models/table-action.model';
 import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum';
+import { ConfirmService } from 'src/app/shared/services/confirm.service';
 
 @Component({
   selector: 'app-empleado',
@@ -59,14 +60,9 @@ export class EmpleadoComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private _empleadoService: EmpleadoService,
-    private _utilidadServicio: UtilidadService
+    private _utilidadServicio: UtilidadService,
+    private _dialogServicio: ConfirmService
   ) {}
-
-  // @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  // ngAfterViewInit() {
-  //   this.dataListEmpleado.paginator = this.paginator;
-  // }
 
   mostrarEmpleados() {
     this._empleadoService.getEmpleado().subscribe({
@@ -110,30 +106,59 @@ export class EmpleadoComponent implements OnInit {
     });
   }
 
+  // eliminarEmpleado(idEmpleado: Empleado) {
+  //   Swal.fire({
+  //     title: '¿Desea eliminar el empleado?',
+  //     text: idEmpleado.cedula,
+  //     icon: 'warning',
+  //     confirmButtonColor: '#3085d6',
+  //     confirmButtonText: 'Si, eliminar',
+  //     showCancelButton: true,
+  //     cancelButtonColor: '#d33',
+  //     cancelButtonText: 'No, volver',
+  //   }).then((resultado) => {
+  //     if (resultado.isConfirmed) {
+  //       // console.log(idEmpleado);
+  //       this._empleadoService
+  //         .deleteEmpleado(idEmpleado.cedula)
+  //         .subscribe(() => {
+  //           this._utilidadServicio.mostrarAlerta(
+  //             'El empelado fue eliminado',
+  //             ''
+  //           );
+  //           this.mostrarEmpleados();
+  //         });
+  //     }
+  //   });
+  // }
+
   eliminarEmpleado(idEmpleado: Empleado) {
-    Swal.fire({
-      title: '¿Desea eliminar el empleado?',
-      text: idEmpleado.cedula,
-      icon: 'warning',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Si, eliminar',
-      showCancelButton: true,
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'No, volver',
-    }).then((resultado) => {
-      if (resultado.isConfirmed) {
-        // console.log(idEmpleado);
-        this._empleadoService
-          .deleteEmpleado(idEmpleado.cedula)
-          .subscribe(() => {
-            this._utilidadServicio.mostrarAlerta(
-              'El empelado fue eliminado',
-              ''
-            );
-            this.mostrarEmpleados();
-          });
-      }
-    });
+    this._dialogServicio
+      .confirmDialog({
+        title: '¿Esta usted seguro?',
+        message: 'Se eliminará el empleado: ',
+        datos: idEmpleado.apellidos,
+        confirmText: 'Si, eliminar',
+        cancelText: 'No, volver',
+      })
+      .subscribe((resultado) => {
+        if (resultado) {
+          this._empleadoService
+            .deleteEmpleado(idEmpleado.cedula)
+            .subscribe(() => {
+              this._utilidadServicio.mostrarAlerta(
+                'El empleado fue eliminado',
+                ''
+              );
+              this.mostrarEmpleados();
+            });
+        } else {
+          // this._utilidadServicio.mostrarAlerta(
+          //   'El empleado no fue eliminado',
+          //   ''
+          // );
+        }
+      });
   }
 
   onTableAction(tableAction: TableAction) {
@@ -148,18 +173,18 @@ export class EmpleadoComponent implements OnInit {
     }
   }
 
-  applyFilter(event: Event) {
-    // const filterValue = (event.target as HTMLInputElement).value;
-    // this.dataSource.filter = filterValue.trim().toLowerCase();
-    // if (this.dataSource.paginator) {
-    //   this.dataSource.paginator.firstPage();
-    // }
-    // // Agregamos el siguiente código para filtrar por cédula
-    // const filterCedula = filterValue.trim().toLowerCase();
-    // this.dataSource.filterPredicate = (data, filter) => {
-    //   const cedula = data.cedula.trim().toLowerCase();
-    //   return cedula.includes(filter);
-    // };
-    // this.dataSource.filter = filterCedula;
+  aplicarFiltroTabla(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataListEmpleado.filter = filterValue.trim().toLowerCase();
+    if (this.dataListEmpleado.paginator) {
+      this.dataListEmpleado.paginator.firstPage();
+    }
+    // Agregamos el siguiente código para filtrar por cédula
+    const filterCedula = filterValue.trim().toLowerCase();
+    this.dataListEmpleado.filterPredicate = (data, filter) => {
+      const cedula = data.cedula.trim().toLowerCase();
+      return cedula.includes(filter);
+    };
+    this.dataListEmpleado.filter = filterCedula;
   }
 }

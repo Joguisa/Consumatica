@@ -14,6 +14,8 @@ import { TableColumn } from '../models/table-column.model';
 import { TableConfig } from '../models/table-config.model';
 import { TableAction } from '../models/table-action.model';
 import { TABLE_ACTION } from '../enums/table-action.enum';
+import { Empleado } from 'src/app/consultorio/empleado/interfaces/empleado';
+import { Paciente } from 'src/app/consultorio/paciente/interfaces/paciente';
 
 @Component({
   selector: 'app-datatable',
@@ -28,6 +30,8 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   tableColumns: TableColumn[] = [];
 
   tableConfig: TableConfig | undefined;
+
+  @Input() filterValue!: string;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -59,7 +63,10 @@ export class DatatableComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dataSource = new MatTableDataSource(this.data);
+    // this.displayedColumns = this.columns.map((column) => column.def);
+  }
 
   editar(element: any) {
     this.action.emit({ action: TABLE_ACTION.EDIT, element });

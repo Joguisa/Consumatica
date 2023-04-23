@@ -15,6 +15,7 @@ import { TableColumn } from 'src/app/shared/components/models/table-column.model
 import { TableConfig } from 'src/app/shared/components/models/table-config.model';
 import { TableAction } from 'src/app/shared/components/models/table-action.model';
 import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum';
+import { ConfirmService } from 'src/app/shared/services/confirm.service';
 
 @Component({
   selector: 'app-paciente',
@@ -24,9 +25,8 @@ import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum'
 export class PacienteComponent implements OnInit {
   tableColumns: TableColumn[] = [];
 
-  // columnasTabla: string[] = ['cedula', 'nombre', 'apellido', 'acciones'];
   dataInicio: Paciente[] = [];
-  dataListPaciente = new MatTableDataSource<Paciente>();
+  dataListPaciente = new MatTableDataSource(this.dataInicio);
 
   tableConfig: TableConfig = {
     isPaginable: true,
@@ -46,7 +46,8 @@ export class PacienteComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private _utilidadServicio: UtilidadService,
-    private _pacientesService: PacienteService
+    private _pacientesService: PacienteService,
+    private _dialogServicio: ConfirmService
   ) {}
 
   mostrarPacientes() {
@@ -129,33 +130,31 @@ export class PacienteComponent implements OnInit {
   }
 
   eliminarPaciente(paciente: Paciente) {
-    Swal.fire({
-      title: '¿Desea eliminar el paciente?',
-      text: paciente.cedula,
-      icon: 'warning',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Si, eliminar',
-      showCancelButton: true,
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'No, volver',
-    }).then((resultado) => {
-      if (resultado.isConfirmed) {
-        this._pacientesService.deletePaciente(paciente.cedula).subscribe(
-          () => {
-            this._utilidadServicio.mostrarAlerta(
-              'El paciente fue eliminado',
-              ''
-            );
-            this.mostrarPacientes();
-          },
-          (error) => {
-            this._utilidadServicio.mostrarAlerta(
-              'Error al eliminar el paciente',
-              ''
-            );
-          }
-        );
-      }
-    });
+    this._dialogServicio
+      .confirmDialog({
+        title: '¿Esta usted seguro?',
+        message: 'Se eliminará el paciente: ',
+        datos: paciente.apellidos,
+        confirmText: 'Si, eliminar',
+        cancelText: 'No, volver',
+      })
+      .subscribe((resultado) => {
+        if (resultado) {
+          this._pacientesService
+            .deletePaciente(paciente.cedula)
+            .subscribe(() => {
+              this._utilidadServicio.mostrarAlerta(
+                'El paciente fue eliminado',
+                ''
+              );
+              this.mostrarPacientes();
+            });
+        } else {
+          // this._utilidadServicio.mostrarAlerta(
+          //   'El paciente no fue eliminado',
+          //   ''
+          // );
+        }
+      });
   }
 }

@@ -12,6 +12,7 @@ import { TableColumn } from 'src/app/shared/components/models/table-column.model
 import { TableConfig } from 'src/app/shared/components/models/table-config.model';
 import { TableAction } from 'src/app/shared/components/models/table-action.model';
 import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum';
+import { ConfirmService } from 'src/app/shared/services/confirm.service';
 
 @Component({
   selector: 'app-servicios',
@@ -39,7 +40,8 @@ export class ServiciosComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private _utilidadServicio: UtilidadService,
-    private _serviciosServicio: ServiciosService
+    private _serviciosServicio: ServiciosService,
+    private _dialogServicio: ConfirmService
   ) {}
 
   mostrarServicios() {
@@ -102,34 +104,30 @@ export class ServiciosComponent implements OnInit {
   }
 
   eliminarServicio(servicio: Servicio) {
-    Swal.fire({
-      title: '¿Desea eliminar el servicio?',
-      text: servicio.nombreServicio,
-      icon: 'warning',
-      confirmButtonColor: '#3085d6',
-      confirmButtonText: 'Si, eliminar',
-      showCancelButton: true,
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'No, volver',
-    }).then((resultado) => {
-      if (resultado.isConfirmed) {
-        this._serviciosServicio.deleteServicio(servicio.id).subscribe(
-          () => {
+    this._dialogServicio
+      .confirmDialog({
+        title: '¿Esta usted seguro?',
+        message: 'Se eliminará el servicio: ',
+        datos: servicio.nombreServicio,
+        confirmText: 'Si, eliminar',
+        cancelText: 'No, volver',
+      })
+      .subscribe((resultado) => {
+        if (resultado) {
+          this._serviciosServicio.deleteServicio(servicio.id).subscribe(() => {
             this._utilidadServicio.mostrarAlerta(
               'El servicio fue eliminado',
               ''
             );
             this.mostrarServicios();
-          },
-          (error) => {
-            this._utilidadServicio.mostrarAlerta(
-              'Error al eliminar el servicio',
-              ''
-            );
-          }
-        );
-      }
-    });
+          });
+        } else {
+          // this._utilidadServicio.mostrarAlerta(
+          //   'El servicio no fue eliminado',
+          //   ''
+          // );
+        }
+      });
   }
 
   onTableAction(tableAction: TableAction) {

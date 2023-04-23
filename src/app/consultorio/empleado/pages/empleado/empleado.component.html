@@ -17,10 +17,12 @@
     <!-- Filtro -->
     <!-- <mat-form-field appearance="fill">
       <mat-label>Buscar</mat-label>
-      <input matInput (keyup)="applyFilter($event)" #input />
+      <input matInput (keyup)="aplicarFiltroTabla($event)" #input />
     </mat-form-field> -->
 
     <div class="mat-elevation-z2" style="overflow-x: auto">
+      <app-search (filterValue)="aplicarFiltroTabla($event)"></app-search>
+
       <app-datatable
         [data]="dataListEmpleado.data"
         [columns]="tableColumns"
