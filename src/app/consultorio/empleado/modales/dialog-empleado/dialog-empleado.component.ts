@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { EmpleadoService } from '../../services/empleado.service';
 import { UtilidadService } from 'src/app/shared/services/utilidad.service';
 import { Empleado } from '../../interfaces/empleado';
@@ -30,7 +29,6 @@ export class DialogEmpleadoComponent implements OnInit {
   constructor(
     private dialogReference: MatDialogRef<DialogEmpleadoComponent>,
     private fb: FormBuilder,
-    private router: Router,
     @Inject(MAT_DIALOG_DATA) public datosEmpleado: Empleado,
     private _empleadoService: EmpleadoService,
     private _tiposervice: TipoEmpleadoService,

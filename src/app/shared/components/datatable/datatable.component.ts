@@ -14,8 +14,6 @@ import { TableColumn } from '../models/table-column.model';
 import { TableConfig } from '../models/table-config.model';
 import { TableAction } from '../models/table-action.model';
 import { TABLE_ACTION } from '../enums/table-action.enum';
-import { Empleado } from 'src/app/consultorio/empleado/interfaces/empleado';
-import { Paciente } from 'src/app/consultorio/paciente/interfaces/paciente';
 
 @Component({
   selector: 'app-datatable',

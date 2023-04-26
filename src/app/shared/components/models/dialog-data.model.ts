@@ -1,4 +1,5 @@
+import { TemplateRef } from '@angular/core';
+
 export interface DialogDataModel {
-  title: string;
-  content: string;
+  template: TemplateRef<any>;
 }

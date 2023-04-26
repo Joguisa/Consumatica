@@ -8,6 +8,7 @@ import { SharedModule } from '../shared.module';
 import { ButtonsComponent } from './buttons/buttons.component';
 import { SearchComponent } from './search/search.component';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { FormularioComponent } from './formulario/formulario.component';
 
 @NgModule({
   declarations: [
@@ -16,12 +17,15 @@ import { ConfirmComponent } from './confirm/confirm.component';
     ButtonsComponent,
     SearchComponent,
     ConfirmComponent,
+    FormularioComponent,
   ],
   exports: [
     DialogsComponent,
     DatatableComponent,
     ButtonsComponent,
     SearchComponent,
+    ConfirmComponent,
+    FormularioComponent,
   ],
   imports: [CommonModule, MaterialModule, PrimeNgModule, SharedModule],
 })

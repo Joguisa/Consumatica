@@ -1,0 +1,32 @@
+<div class="formgroup">
+  <label> {{ label }}</label>
+  <div>
+    <input
+      [formControl]="control"
+      [type]="type"
+      [placeholder]="placeholder"
+      [required]="required"
+      [readonly]="readonly"
+    />
+
+    <label> {{ label }}</label>
+    <mat-select
+      [(ngModel)]="valorSeleccionado"
+      [ngModelOptions]="{ standalone: true }"
+      matInput
+    >
+      <mat-option *ngFor="let opcion of opciones" [value]="opcion.value">
+        {{ opcion.options }}
+      </mat-option>
+    </mat-select>
+
+    <ng-container *ngIf="displayErrors()">
+      <div *ngIf="control.errors?.['required']">Este campo es requerido</div>
+
+      <div *ngIf="control.errors?.['minlength']">
+        Esta entrada tiene {{ control.errors?.['minlength'].actualLength }} pero
+        debe ser de al menos {{ control.errors?.['minlength'].requiredLength }}
+      </div>
+    </ng-container>
+  </div>
+</div>

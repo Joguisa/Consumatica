@@ -111,7 +111,7 @@ export class TipoEmpleadoComponent implements OnInit {
   eliminarTipoEmpleado(tipoEmpleado: TipoEmpleado) {
     this._dialogServicio
       .confirmDialog({
-        title: '¿Esta usted seguro?',
+        title: '¿Está usted seguro?',
         message: 'Se eliminará el cargo: ',
         datos: tipoEmpleado.nombreTipo,
         confirmText: 'Si, eliminar',
@@ -138,7 +138,6 @@ export class TipoEmpleadoComponent implements OnInit {
   }
 
   onTableAction(tableAction: TableAction) {
-    console.log(tableAction);
     switch (tableAction.action) {
       case TABLE_ACTION.EDIT:
         this.editarTipoEmpleado(tableAction.element);

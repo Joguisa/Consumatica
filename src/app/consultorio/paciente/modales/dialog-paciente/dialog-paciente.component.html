@@ -29,6 +29,20 @@
   </form>
 </mat-dialog-content>
 
+<!-- <ng-template #template>
+  <app-dialogs>
+    <app-formulario [formGroup]="formPaciente">
+      <app-formulario
+        label="Cedula"
+        placeholder="Ingrese su cedula"
+        type="text"
+        [required]="true"
+        [control]="$any(formPaciente.get('cedula'))"
+      ></app-formulario>
+    </app-formulario>
+  </app-dialogs>
+</ng-template> -->
+
 <mat-dialog-actions>
   <button mat-raised-button mat-dialog-close color="warn">Volver</button>
   <button

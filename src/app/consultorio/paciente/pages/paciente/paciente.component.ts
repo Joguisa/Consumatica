@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -16,6 +22,7 @@ import { TableConfig } from 'src/app/shared/components/models/table-config.model
 import { TableAction } from 'src/app/shared/components/models/table-action.model';
 import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum';
 import { ConfirmService } from 'src/app/shared/services/confirm.service';
+import { DialogService } from 'src/app/shared/services/dialog.service';
 
 @Component({
   selector: 'app-paciente',
@@ -47,7 +54,8 @@ export class PacienteComponent implements OnInit {
     public dialog: MatDialog,
     private _utilidadServicio: UtilidadService,
     private _pacientesService: PacienteService,
-    private _dialogServicio: ConfirmService
+    private _alertaServicio: ConfirmService,
+    private _dialogServicio: DialogService
   ) {}
 
   mostrarPacientes() {
@@ -91,6 +99,20 @@ export class PacienteComponent implements OnInit {
     this.dataListPaciente.filter = filterCedula;
   }
 
+  // prueba(template: TemplateRef<any>) {
+  //   this._dialogServicio
+  //     .abrirDialogo({
+  //       template,
+  //     })
+  //     .afterClosed()
+  //     .subscribe((resultado) => {
+  //       console.log(resultado);
+  //       if (resultado === 'true') {
+  //         this.mostrarPacientes();
+  //       }
+  //     });
+  // }
+
   agregarPaciente() {
     this.dialog
       .open(DialogPacienteComponent, {
@@ -118,7 +140,6 @@ export class PacienteComponent implements OnInit {
   }
 
   onTableAction(tableAction: TableAction) {
-    console.log(tableAction);
     switch (tableAction.action) {
       case TABLE_ACTION.EDIT:
         this.editarPaciente(tableAction.element);
@@ -130,9 +151,9 @@ export class PacienteComponent implements OnInit {
   }
 
   eliminarPaciente(paciente: Paciente) {
-    this._dialogServicio
+    this._alertaServicio
       .confirmDialog({
-        title: '¿Esta usted seguro?',
+        title: '¿Está usted seguro?',
         message: 'Se eliminará el paciente: ',
         datos: paciente.apellidos,
         confirmText: 'Si, eliminar',

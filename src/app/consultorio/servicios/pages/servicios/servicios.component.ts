@@ -106,7 +106,7 @@ export class ServiciosComponent implements OnInit {
   eliminarServicio(servicio: Servicio) {
     this._dialogServicio
       .confirmDialog({
-        title: '¿Esta usted seguro?',
+        title: '¿Está usted seguro?',
         message: 'Se eliminará el servicio: ',
         datos: servicio.nombreServicio,
         confirmText: 'Si, eliminar',
@@ -131,7 +131,6 @@ export class ServiciosComponent implements OnInit {
   }
 
   onTableAction(tableAction: TableAction) {
-    console.log(tableAction);
     switch (tableAction.action) {
       case TABLE_ACTION.EDIT:
         this.editarServicio(tableAction.element);
