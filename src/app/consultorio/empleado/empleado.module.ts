@@ -8,10 +8,12 @@ import { DialogEmpleadoComponent } from './modales/dialog-empleado/dialog-emplea
 import { MaterialModule } from 'src/app/shared/material/material.module';
 import { PrimeNgModule } from 'src/app/shared/prime-ng/prime-ng.module';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
+import { ReporteService } from './services/reporte.service';
 
 @NgModule({
   declarations: [EmpleadoComponent, DialogEmpleadoComponent],
   exports: [EmpleadoComponent, DialogEmpleadoComponent],
+  providers: [ReporteService],
   imports: [
     CommonModule,
     EmpleadoRoutingModule,

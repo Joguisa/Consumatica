@@ -22,12 +22,12 @@ export class TipoEmpleadoService {
 
   updateTipos(modelo: TipoEmpleado, id: number): Observable<TipoEmpleado> {
     return this.http.put<TipoEmpleado>(
-      `${this.apiUrl}tiposEmpleado/${id}`,
+      `${this.apiUrl}tipoEmpleado/${id}`,
       modelo
     );
   }
 
-  deleteTipos(id: any): Observable<TipoEmpleado> {
-    return this.http.delete<TipoEmpleado>(`${this.apiUrl}tiposEmpleado/${id}`);
+  deleteTipos(id: number): Observable<TipoEmpleado> {
+    return this.http.delete<TipoEmpleado>(`${this.apiUrl}tipoEmpleado/${id}`);
   }
 }

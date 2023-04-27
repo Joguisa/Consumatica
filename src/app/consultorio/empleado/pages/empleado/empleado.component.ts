@@ -10,14 +10,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { EmpleadoService } from '../../services/empleado.service';
 import { UtilidadService } from 'src/app/shared/services/utilidad.service';
 
+// import * as XLSX from "xlsx"
+
 import { DialogEmpleadoComponent } from '../../modales/dialog-empleado/dialog-empleado.component';
 
-import Swal from 'sweetalert2';
 import { TableColumn } from 'src/app/shared/components/models/table-column.model';
 import { TableConfig } from 'src/app/shared/components/models/table-config.model';
 import { TableAction } from 'src/app/shared/components/models/table-action.model';
 import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum';
 import { ConfirmService } from 'src/app/shared/services/confirm.service';
+import { ReporteService } from '../../services/reporte.service';
 
 @Component({
   selector: 'app-empleado',
@@ -61,7 +63,8 @@ export class EmpleadoComponent implements OnInit {
     public dialog: MatDialog,
     private _empleadoService: EmpleadoService,
     private _utilidadServicio: UtilidadService,
-    private _dialogServicio: ConfirmService
+    private _dialogServicio: ConfirmService,
+    private _reportServicio: ReporteService
   ) {}
 
   mostrarEmpleados() {
@@ -79,6 +82,10 @@ export class EmpleadoComponent implements OnInit {
       },
       error: (e) => {},
     });
+  }
+
+  exportarExcel(): void{
+    this._reportServicio.exportToExcel(this.dataListEmpleado.data, 'my_export');
   }
 
   agregarEmpleado() {

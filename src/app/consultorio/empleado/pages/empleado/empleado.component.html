@@ -9,6 +9,13 @@
       [nombreBoton]="'Nuevo Empleado'"
       (clickBoton)="agregarEmpleado()"
     ></app-buttons>
+    <button mat-raised-button color="warn" 
+        style="margin: 5px 5px;"
+        [disabled]="dataListEmpleado.data.length < 1"
+        (click)="exportarExcel()">
+    <mat-icon>feed</mat-icon> Exportar Excel
+</button>
+
   </mat-card-title>
 
   <mat-divider></mat-divider>
