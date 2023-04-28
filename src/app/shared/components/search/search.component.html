@@ -1,4 +1,4 @@
 <mat-form-field appearance="fill">
   <mat-label>Buscar</mat-label>
-  <input matInput #input (keyup)="(input.value)" />
+  <input matInput (keyup)="aplicarFiltro($event)" #input />
 </mat-form-field>

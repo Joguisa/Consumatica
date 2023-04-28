@@ -36,4 +36,8 @@ export class EmpleadoService {
     return this.http.delete<void>(`${this.apiUrl}empleados/${idEmpleado}`);
   }
   
+  buscarEmpleado (cedula: string) : Observable<Empleado> {
+    return this.http.get<Empleado>(`${this.apiUrl}empleados/${cedula}`);
+
+  }
 }

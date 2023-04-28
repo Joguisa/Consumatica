@@ -40,8 +40,6 @@ export class DialogEmpleadoComponent implements OnInit {
       cedula: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       nombres: ['', Validators.required],
       apellidos: ['', Validators.required],
-      // nombreTipo: [''],
-      // nombreServicio: ['', Validators.required],
     });
 
     if (this.datosEmpleado != null) {
@@ -70,13 +68,14 @@ export class DialogEmpleadoComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.datosEmpleado != null) {
+      const nombreTipo = this.datosEmpleado.asignacion && this.datosEmpleado.asignacion.tipoEmpleado ? this.datosEmpleado.asignacion.tipoEmpleado.nombreTipo : '';
+      const nombreServicio = this.datosEmpleado.servicio && this.datosEmpleado.servicio.tipoServicio ? this.datosEmpleado.servicio.tipoServicio.nombreServicio : '';
       this.formEmpleado.patchValue({
         cedula: this.datosEmpleado.cedula,
         nombres: this.datosEmpleado.nombres,
         apellidos: this.datosEmpleado.apellidos,
-        nombreTipo: this.datosEmpleado.asignacion?.tipoEmpleado.nombreTipo, // para tipo empleado
-        nombreServicio:
-          this.datosEmpleado.servicio?.tipoServicio.nombreServicio,
+        nombreTipo: nombreTipo,
+        nombreServicio: nombreServicio,
       });
     }
   }
@@ -87,6 +86,8 @@ export class DialogEmpleadoComponent implements OnInit {
       cedula: this.formEmpleado.value.cedula,
       nombres: this.formEmpleado.value.nombres,
       apellidos: this.formEmpleado.value.apellidos,
+      asignacion: this.formEmpleado.value.nombreTipo,
+      servicio: this.formEmpleado.value.nombreServicio
     };
 
     if (this.datosEmpleado == null) {
@@ -96,7 +97,7 @@ export class DialogEmpleadoComponent implements OnInit {
           next: (data) => {
             // if (data) {
             this._utilidadServicio.mostrarAlerta(
-              'El paciente fue registrado',
+              'El empleado fue registrado',
               'Exito'
             );
             this.dialogReference.close('creado');
@@ -104,7 +105,7 @@ export class DialogEmpleadoComponent implements OnInit {
           },
           error: (e) => {
             this._utilidadServicio.mostrarAlerta(
-              'No se pudo registrar el paciente',
+              'No se pudo registrar el empleado',
               'Error'
             );
           },

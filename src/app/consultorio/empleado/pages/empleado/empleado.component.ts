@@ -1,10 +1,8 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
 
 import { Empleado } from '../../interfaces/empleado';
 
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 
 import { EmpleadoService } from '../../services/empleado.service';
@@ -19,23 +17,30 @@ import { TableConfig } from 'src/app/shared/components/models/table-config.model
 import { TableAction } from 'src/app/shared/components/models/table-action.model';
 import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum';
 import { ConfirmService } from 'src/app/shared/services/confirm.service';
-import { ReporteService } from '../../services/reporte.service';
+import { ReporteService } from '../../../../shared/services/reporte.service';
+import { ReportePdfService } from 'src/app/shared/services/reporte-pdf.service';
+
+import { TipoEmpleado } from 'src/app/consultorio/tipo-empleado/interfaces/tipo-empleado';
+import { Servicio } from 'src/app/consultorio/servicios/interfaces/servicio';
+
 
 @Component({
   selector: 'app-empleado',
   templateUrl: './empleado.component.html',
   styleUrls: ['./empleado.component.css'],
 })
-export class EmpleadoComponent implements OnInit {
+export class EmpleadoComponent implements OnInit  {
   tableColumns: TableColumn[] = [];
   tableConfig: TableConfig = {
     isPaginable: true,
     showActions: true,
   };
   dataInicio: Empleado[] = [];
+  tipoServicios: Servicio[] = [];
+  listaTipo: TipoEmpleado[] = [];
   dataListEmpleado = new MatTableDataSource(this.dataInicio);
 
-  setTableColumns() {
+  setTableColumns() {      
     this.tableColumns = [
       { label: 'Cedula', def: 'cedula', datakey: 'cedula' },
       { label: 'Nombre', def: 'nombre', datakey: 'nombres' },
@@ -43,12 +48,14 @@ export class EmpleadoComponent implements OnInit {
       {
         label: 'Cargo',
         def: 'tipo',
-        datakey: 'cargo',
+        datakey: 'asignacion',
+        nested: true,
       },
       {
         label: 'Servicio',
         def: 'servicio',
-        datakey: 'nombreServicio',
+        datakey: 'servicio.tipoServicio',
+        nested: true,
       },
     ];
   }
@@ -59,33 +66,71 @@ export class EmpleadoComponent implements OnInit {
   }
 
   constructor(
-    private router: Router,
     public dialog: MatDialog,
     private _empleadoService: EmpleadoService,
     private _utilidadServicio: UtilidadService,
     private _dialogServicio: ConfirmService,
-    private _reportServicio: ReporteService
+    private _reportServicio: ReporteService,
+    private _reportPdfServicio: ReportePdfService
   ) {}
+
+  // mostrarEmpleados() {
+  //   this._empleadoService.getEmpleado().subscribe({
+  //     next: (dataResponse) => {
+  //       this.dataListEmpleado.data = dataResponse.map((empleado) => ({
+
+  //         id: empleado.id,
+  //         nombres: empleado.nombres,
+  //         apellidos: empleado.apellidos,
+  //         cedula: empleado.cedula,
+  //         cargo: empleado.asignacion.tipoEmpleado.nombreTipo ?? '',
+  //         nombreServicio: empleado.servicio.tipoServicio.nombreServicio ?? '',
+          
+  //         // nombreTipo: empleado.asignacion?.tipoEmpleado.nombreTipo,
+  //         // nombreServicio: empleado.servicio?.tipoServicio.nombreServicio,
+  //       }));        
+  //     },
+  //     error: (e) => {},
+  //   });
+  // }
 
   mostrarEmpleados() {
     this._empleadoService.getEmpleado().subscribe({
       next: (dataResponse) => {
-        // this.dataSource.data = dataResponse;
-        this.dataListEmpleado.data = dataResponse.map((empleado) => ({
-          id: empleado.id,
-          nombres: empleado.nombres,
-          apellidos: empleado.apellidos,
-          cedula: empleado.cedula,
-          cargo: empleado.asignacion?.tipoEmpleado.nombreTipo,
-          nombreServicio: empleado.servicio?.tipoServicio.nombreServicio,
-        }));
+        this.dataListEmpleado.data = dataResponse.map((empleado) => {
+          return {
+            id: empleado.id,
+            nombres: empleado.nombres,
+            apellidos: empleado.apellidos,
+            cedula: empleado.cedula,
+            asignacion: empleado.asignacion,
+            servicio: empleado.servicio,
+          }
+        });
       },
       error: (e) => {},
     });
   }
+  
+
 
   exportarExcel(): void{
-    this._reportServicio.exportToExcel(this.dataListEmpleado.data, 'my_export');
+    this._reportServicio.exportToExcel(this.dataListEmpleado.data, 'Lista de empleados');
+  }
+
+  exportarPDF(){
+    const encabezado = ['Cedula', 'Nombres', 'Apellidos', 'Cargo', 'Servicio'];
+    const cuerpo = this.dataListEmpleado.data.map((empleado) => {
+      return [
+        empleado.cedula,
+        empleado.nombres,
+        empleado.apellidos,
+        empleado.asignacion.tipoEmpleado.nombreTipo,
+        empleado.servicio.tipoServicio.nombreServicio
+      ]
+    })
+    console.log(cuerpo)
+    // this._reportPdfServicio.exportToPdf(encabezado, cuerpo, 'Listado de empleados', true)
   }
 
   agregarEmpleado() {
@@ -160,10 +205,10 @@ export class EmpleadoComponent implements OnInit {
               this.mostrarEmpleados();
             });
         } else {
-          // this._utilidadServicio.mostrarAlerta(
-          //   'El empleado no fue eliminado',
-          //   ''
-          // );
+          this._utilidadServicio.mostrarAlerta(
+            'El empleado no fue eliminado',
+            ''
+          );
         }
       });
   }
@@ -179,18 +224,19 @@ export class EmpleadoComponent implements OnInit {
     }
   }
 
-  aplicarFiltroTabla(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
+  
+  
+  aplicarFiltroTabla(filterValue: string) {
     this.dataListEmpleado.filter = filterValue.trim().toLowerCase();
     if (this.dataListEmpleado.paginator) {
       this.dataListEmpleado.paginator.firstPage();
     }
     // Agregamos el siguiente código para filtrar por cédula
-    const filterCedula = filterValue.trim().toLowerCase();
-    this.dataListEmpleado.filterPredicate = (data, filter) => {
-      const cedula = data.cedula.trim().toLowerCase();
-      return cedula.includes(filter);
-    };
-    this.dataListEmpleado.filter = filterCedula;
+    // const filterCedula = filterValue.trim().toLowerCase();
+    // this.dataListEmpleado.filterPredicate = (data, filter) => {
+    //   const cedula = data.cedula.trim().toLowerCase();
+    //   return cedula.includes(filter);
+    // };
+    // this.dataListEmpleado.filter = filterCedula;
   }
 }

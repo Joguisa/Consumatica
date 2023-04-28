@@ -9,6 +9,20 @@
       [nombreBoton]="'Nuevo Paciente'"
       (clickBoton)="agregarPaciente()"
     ></app-buttons>
+    <div class="botones">
+      <button mat-stroked-button
+        style="margin: 5px 5px; background-color: white; color: #287233;"
+        [disabled]="dataListPaciente.data.length < 1"
+        (click)="exportarExcel()">
+        <mat-icon>receipt</mat-icon>XLSX
+    </button>
+    <button mat-stroked-button
+        style="margin: 5px 5px; background-color: white; color: #960303;"
+        [disabled]="dataListPaciente.data.length < 1"
+        (click)="exportarPDF()">
+        <mat-icon> insert_drive_file</mat-icon>PDF
+    </button>
+    </div >
     <!-- <button mat-raised-button color="warn" (click)="prueba()">
       Prueba de dialogo
     </button> -->

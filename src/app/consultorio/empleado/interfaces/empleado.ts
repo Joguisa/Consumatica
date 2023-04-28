@@ -3,8 +3,8 @@ export interface Empleado {
   nombres: string;
   apellidos: string;
   cedula: string;
-  asignacion?: Asignacion;
-  servicio?: Servicio;
+  asignacion: Asignacion;
+  servicio: Servicio;
 }
 
 export interface Asignacion {

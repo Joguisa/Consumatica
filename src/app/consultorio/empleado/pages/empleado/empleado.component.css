@@ -17,5 +17,10 @@ mat-form-field{
 }
 mat-card-title{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; 
+    align-items: center;
+}
+.botones {
+    display: flex;
+    align-items:end;
 }

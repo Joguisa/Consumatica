@@ -23,6 +23,7 @@ import { TableAction } from 'src/app/shared/components/models/table-action.model
 import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum';
 import { ConfirmService } from 'src/app/shared/services/confirm.service';
 import { DialogService } from 'src/app/shared/services/dialog.service';
+import { ReporteService } from 'src/app/shared/services/reporte.service';
 
 @Component({
   selector: 'app-paciente',
@@ -55,7 +56,8 @@ export class PacienteComponent implements OnInit {
     private _utilidadServicio: UtilidadService,
     private _pacientesService: PacienteService,
     private _alertaServicio: ConfirmService,
-    private _dialogServicio: DialogService
+    private _dialogServicio: DialogService,
+    private _reportServicio: ReporteService
   ) {}
 
   mostrarPacientes() {
@@ -112,6 +114,17 @@ export class PacienteComponent implements OnInit {
   //       }
   //     });
   // }
+
+  exportarExcel(): void{
+    this._reportServicio.exportToExcel(this.dataListPaciente.data, 'Lista de pacientes');
+  }
+
+  //Cuando el filtro funcione con la tabla aplicarlo en un nuevo botón 
+  exportarExcelConFiltro(): void{
+    this._reportServicio.exportToExcel(this.dataListPaciente.filteredData, '');
+  }
+
+  exportarPDF(){}
 
   agregarPaciente() {
     this.dialog

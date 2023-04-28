@@ -9,26 +9,30 @@
       [nombreBoton]="'Nuevo Empleado'"
       (clickBoton)="agregarEmpleado()"
     ></app-buttons>
-    <button mat-raised-button color="warn" 
-        style="margin: 5px 5px;"
+    <div class="botones">
+      <button mat-stroked-button
+        style="margin: 5px 5px; background-color: white; color: #287233;"
         [disabled]="dataListEmpleado.data.length < 1"
         (click)="exportarExcel()">
-    <mat-icon>feed</mat-icon> Exportar Excel
-</button>
-
+        <mat-icon>receipt</mat-icon>XLSX
+    </button>
+    <button mat-stroked-button
+        style="margin: 5px 5px; background-color: white; color: #960303;"
+        [disabled]="dataListEmpleado.data.length < 1"
+        (click)="exportarPDF()">
+        <mat-icon> insert_drive_file</mat-icon>PDF
+    </button>
+    </div >    
   </mat-card-title>
 
   <mat-divider></mat-divider>
 
   <mat-card-content class="dashboard-card-content">
-    <!-- Filtro -->
-    <!-- <mat-form-field appearance="fill">
-      <mat-label>Buscar</mat-label>
-      <input matInput (keyup)="aplicarFiltroTabla($event)" #input />
-    </mat-form-field> -->
+  
+
+  <app-search [dataSource]="dataListEmpleado" (filtroCambiado)="aplicarFiltroTabla($event)"></app-search>
 
     <div class="mat-elevation-z2" style="overflow-x: auto">
-      <app-search (filterValue)="aplicarFiltroTabla($event)"></app-search>
 
       <app-datatable
         [data]="dataListEmpleado.data"

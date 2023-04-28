@@ -8,6 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+
 import { MatPaginator } from '@angular/material/paginator';
 
 import { TableColumn } from '../models/table-column.model';
@@ -21,12 +22,10 @@ import { TABLE_ACTION } from '../enums/table-action.enum';
   styleUrls: ['./datatable.component.css'],
 })
 export class DatatableComponent implements OnInit, AfterViewInit {
-  dataSource: MatTableDataSource<Array<any>> = new MatTableDataSource(); // preguntar si se deja así o se usa este nombre para todas las tablas o se usan las diferentes definiciones en los TS de cada tabla para dataSource
+  @Input() dataSource: MatTableDataSource<Array<any>> = new MatTableDataSource(); // preguntar si se deja así o se usa este nombre para todas las tablas o se usan las diferentes definiciones en los TS de cada tabla para dataSource
 
   displayedColumns: string[] = [];
-
   tableColumns: TableColumn[] = [];
-
   tableConfig: TableConfig | undefined;
 
   @Input() filterValue!: string;
@@ -48,6 +47,7 @@ export class DatatableComponent implements OnInit, AfterViewInit {
   }
 
   @Output() action: EventEmitter<TableAction> = new EventEmitter();
+  
 
   setConfig(config: TableConfig) {
     this.tableConfig = config;
