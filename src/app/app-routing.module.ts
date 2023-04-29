@@ -3,8 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent } from './consultorio/pages/landing/landing.component';
 import { ErrorPageComponent } from './shared/error-page/error-page.component';
 import { HomeComponent } from './shared/home/home.component';
+import { AuthGuard } from './auth/guard/auth.guard';
 
-const routes: Routes = [
+const routes: Routes = [ 
   {
     path: 'landing',
     component: LandingComponent,
@@ -16,10 +17,13 @@ const routes: Routes = [
   },
   {
     path: 'consultorio',
-    component: HomeComponent,
+    canActivate: [AuthGuard],
+    
+    component: HomeComponent,        
     children: [
       {
         path: 'empleado',
+        canLoad: [AuthGuard],
         loadChildren: () =>
           import('./consultorio/empleado/empleado.module').then(
             (m) => m.EmpleadoModule
@@ -27,6 +31,7 @@ const routes: Routes = [
       },
       {
         path: 'paciente',
+        canLoad: [AuthGuard],
         loadChildren: () =>
           import('./consultorio/paciente/paciente.module').then(
             (m) => m.PacienteModule
@@ -48,11 +53,13 @@ const routes: Routes = [
       },
     ],
   },
-
+  {
+    path:'ErrorPage', component: ErrorPageComponent 
+  },
   {
     path: '**',
-    component: ErrorPageComponent,
-  },
+    redirectTo: 'ErrorPage',
+  }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

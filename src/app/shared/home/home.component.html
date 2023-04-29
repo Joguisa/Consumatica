@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar color="primary">
   <mat-toolbar-row>
     <button mat-icon-button (click)="sidenav.toggle(); sidenavOpen = false">
       <mat-icon>menu</mat-icon>
@@ -6,27 +6,9 @@
 
     <div class="logogeneral">
       <h1>
-        <a href="landing"
-          ><strong>{{ "Consumatica" | uppercase }}</strong></a
-        >
+          <strong>{{ "Consumatica" | uppercase }}</strong>
       </h1>
-      <div class="logo">
-        <a href=""><img src="/assets/img/caduceo.png" alt="logo-Empresa" /></a>
-      </div>
     </div>
-
-    <!-- <div class="loading">
-      <svg width="64px" height="48px">
-        <polyline
-          points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24"
-          id="back"
-        ></polyline>
-        <polyline
-          points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24"
-          id="front"
-        ></polyline>
-      </svg>
-    </div> -->
 
     <span style="flex: 1 1 auto"></span>
 
@@ -37,8 +19,8 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav #sidenav opened="true" mode="side" style="width: 200px">
-    <mat-nav-list>
+  <mat-sidenav  #sidenav opened="true" mode="side" style="width: 200px">
+    <mat-nav-list >
       <a routerLink="./empleado" mat-list-item (click)="sidenav.toggle()">
         <i class="material-icons">supervised_user_circle</i>
         <span>Empleados</span>
@@ -56,6 +38,10 @@
         <span>Servicios</span>
       </a>
     </mat-nav-list>
+    <div class="boton">
+      
+      <app-theme-switcher></app-theme-switcher>
+    </div>
   </mat-sidenav>
 
   <mat-sidenav-content>

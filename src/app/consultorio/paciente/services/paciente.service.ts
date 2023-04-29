@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Paciente } from '../interfaces/paciente';
 
@@ -14,7 +14,12 @@ export class PacienteService {
   constructor(private http: HttpClient) {}
 
   getPaciente(): Observable<Paciente[]> {
-    return this.http.get<Paciente[]>(`${this.apiUrl}pacientes`);
+    return this.http.get<Paciente[]>(`${this.apiUrl}pacientes`).pipe(
+      catchError(error => {
+        console.error(error, 'Error al obtener la lista de pacientes');
+      throw error; // Lanza el error para que sea manejado por el interceptor de errores
+      })
+    );;
   }
 
   addPaciente(modelo: Paciente): Observable<Paciente> {

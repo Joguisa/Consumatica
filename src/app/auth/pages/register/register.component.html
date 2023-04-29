@@ -1,1 +1,48 @@
-<p>register works!</p>
+<div class="body">
+  <mat-card class="loginCard">
+    <div class="header">
+      <h2>Registro</h2>
+    </div>
+    <mat-card-content style="padding-bottom: 15px">
+      <form
+        *ngIf="!loading"
+        [formGroup]="formularioRegister"
+        (ngSubmit)="crearCuenta()"
+      >
+        <img src="./assets/img/profile.png" alt="login.png" width="50%" style="margin-bottom: 25px;" />
+
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput autocomplete="off" formControlName="email" />
+          <mat-icon matSuffix>mail</mat-icon>
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input
+            type="password"
+            matInput
+            autocomplete="off"
+            formControlName="password"
+            matInput
+          />
+        </mat-form-field>
+        <br />
+        <button
+          type="submit"
+          class="full-width button"
+          mat-raised-button
+          color="primary"
+          [disabled]="!formularioRegister.valid"
+        >
+          Registrar
+        </button>
+
+        <div class="register">
+          <span>¿Ya tiene una cuenta?</span>
+          <br>
+          <a routerLink="/auth/login">Ir al login</a>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

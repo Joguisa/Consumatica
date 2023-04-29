@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { Servicio } from '../interfaces/servicio';
 
 @Injectable({
@@ -14,7 +14,12 @@ export class ServiciosService {
   constructor(private http: HttpClient) {}
 
   getServicios(): Observable<Servicio[]> {
-    return this.http.get<Servicio[]>(`${this.apiUrl}servicios`);
+    return this.http.get<Servicio[]>(`${this.apiUrl}servicios`).pipe(
+      catchError(error => {
+        console.error(error, 'Error al obtener la lista de servicios');
+      throw error; // Lanza el error para que sea manejado por el interceptor de errores
+      })
+    );;
   }
 
   addServicio(modelo: Servicio): Observable<Servicio> {

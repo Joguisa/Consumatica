@@ -37,6 +37,7 @@
     </mat-form-field>
 
     <div class="mat-elevation-z2" style="overflow-x: auto">
+      <app-loading *ngIf="dataListPaciente.data.length == 0"></app-loading>
       <app-datatable
         [data]="dataListPaciente.data"
         [columns]="tableColumns"

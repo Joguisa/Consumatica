@@ -17,6 +17,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
@@ -46,6 +47,7 @@ import { MatNativeDateModule } from '@angular/material/core'; // para usar fecha
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatTableModule,
+    MatSlideToggleModule,
     MatToolbarModule,
     MatTooltipModule,
     MatSelectModule,

@@ -24,6 +24,7 @@ import { TABLE_ACTION } from 'src/app/shared/components/enums/table-action.enum'
 import { ConfirmService } from 'src/app/shared/services/confirm.service';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { ReporteService } from 'src/app/shared/services/reporte.service';
+import { ReportePdfService } from 'src/app/shared/services/reporte-pdf.service';
 
 @Component({
   selector: 'app-paciente',
@@ -57,7 +58,8 @@ export class PacienteComponent implements OnInit {
     private _pacientesService: PacienteService,
     private _alertaServicio: ConfirmService,
     private _dialogServicio: DialogService,
-    private _reportServicio: ReporteService
+    private _reportServicio: ReporteService,
+    private _reportPdfServicio: ReportePdfService
   ) {}
 
   mostrarPacientes() {
@@ -124,7 +126,18 @@ export class PacienteComponent implements OnInit {
     this._reportServicio.exportToExcel(this.dataListPaciente.filteredData, '');
   }
 
-  exportarPDF(){}
+  exportarPDF(){
+    const encabezado = ['Cedula', 'Nombres', 'Apellidos'];
+        const cuerpo = this.dataListPaciente.data.map((paciente) => {
+          return [
+            paciente.cedula,
+            paciente.nombres,
+            paciente.apellidos
+          ]
+        })
+        console.log(cuerpo)
+    this._reportPdfServicio.exportToPdf(encabezado, cuerpo, 'Listado de pacientes', true)
+  }
 
   agregarPaciente() {
     this.dialog

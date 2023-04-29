@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Empleado } from '../interfaces/empleado';
 
@@ -14,8 +14,14 @@ export class EmpleadoService {
   constructor(private http: HttpClient) {}
 
   getEmpleado(): Observable<Empleado[]> {
-    return this.http.get<Empleado[]>(`${this.apiUrl}empleados`);
+    return this.http.get<Empleado[]>(`${this.apiUrl}empleados`).pipe(
+      catchError(error => {
+        console.error(error, 'Error al obtener la lista de empleados');
+      throw error; // Lanza el error para que sea manejado por el interceptor de errores
+      })
+    );
   }
+  
 
   addEmpleado(
     idTipoEmpleado: number,

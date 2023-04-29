@@ -48,13 +48,13 @@ export class EmpleadoComponent implements OnInit  {
       {
         label: 'Cargo',
         def: 'tipo',
-        datakey: 'asignacion',
+        datakey: 'cargo',
         nested: true,
       },
       {
         label: 'Servicio',
         def: 'servicio',
-        datakey: 'servicio.tipoServicio',
+        datakey: 'nombreServicio',
         nested: true,
       },
     ];
@@ -74,43 +74,41 @@ export class EmpleadoComponent implements OnInit  {
     private _reportPdfServicio: ReportePdfService
   ) {}
 
-  // mostrarEmpleados() {
-  //   this._empleadoService.getEmpleado().subscribe({
-  //     next: (dataResponse) => {
-  //       this.dataListEmpleado.data = dataResponse.map((empleado) => ({
-
-  //         id: empleado.id,
-  //         nombres: empleado.nombres,
-  //         apellidos: empleado.apellidos,
-  //         cedula: empleado.cedula,
-  //         cargo: empleado.asignacion.tipoEmpleado.nombreTipo ?? '',
-  //         nombreServicio: empleado.servicio.tipoServicio.nombreServicio ?? '',
-          
-  //         // nombreTipo: empleado.asignacion?.tipoEmpleado.nombreTipo,
-  //         // nombreServicio: empleado.servicio?.tipoServicio.nombreServicio,
-  //       }));        
-  //     },
-  //     error: (e) => {},
-  //   });
-  // }
-
   mostrarEmpleados() {
     this._empleadoService.getEmpleado().subscribe({
       next: (dataResponse) => {
-        this.dataListEmpleado.data = dataResponse.map((empleado) => {
-          return {
-            id: empleado.id,
-            nombres: empleado.nombres,
-            apellidos: empleado.apellidos,
-            cedula: empleado.cedula,
-            asignacion: empleado.asignacion,
-            servicio: empleado.servicio,
-          }
-        });
+        this.dataListEmpleado.data = dataResponse.map((empleado) => ({
+          id: empleado.id,
+          nombres: empleado.nombres,
+          apellidos: empleado.apellidos,
+          cedula: empleado.cedula,
+          cargo: empleado.asignacion?.tipoEmpleado.nombreTipo ?? '',
+          nombreServicio: empleado.servicio?.tipoServicio.nombreServicio ?? '',          
+          // nombreTipo: empleado.asignacion?.tipoEmpleado.nombreTipo,
+          // nombreServicio: empleado.servicio?.tipoServicio.nombreServicio,
+        }));        
       },
       error: (e) => {},
     });
   }
+
+  // mostrarEmpleados() {
+  //   this._empleadoService.getEmpleado().subscribe({
+  //     next: (dataResponse) => {
+  //       this.dataListEmpleado.data = dataResponse.map((empleado) => {
+  //         return {
+  //           id: empleado.id,
+  //           nombres: empleado.nombres,
+  //           apellidos: empleado.apellidos,
+  //           cedula: empleado.cedula,
+  //           asignacion: empleado.asignacion,
+  //           servicio: empleado.servicio,
+  //         }
+  //       });
+  //     },
+  //     error: (e) => {},
+  //   });
+  // }
   
 
 
@@ -120,17 +118,17 @@ export class EmpleadoComponent implements OnInit  {
 
   exportarPDF(){
     const encabezado = ['Cedula', 'Nombres', 'Apellidos', 'Cargo', 'Servicio'];
-    const cuerpo = this.dataListEmpleado.data.map((empleado) => {
-      return [
-        empleado.cedula,
-        empleado.nombres,
-        empleado.apellidos,
-        empleado.asignacion.tipoEmpleado.nombreTipo,
-        empleado.servicio.tipoServicio.nombreServicio
-      ]
-    })
-    console.log(cuerpo)
-    // this._reportPdfServicio.exportToPdf(encabezado, cuerpo, 'Listado de empleados', true)
+        const cuerpo = this.dataListEmpleado.data.map((empleado) => {
+          return [
+            empleado.cedula,
+            empleado.nombres,
+            empleado.apellidos,
+            empleado.asignacion?.tipoEmpleado.nombreTipo,
+            empleado.servicio?.tipoServicio.nombreServicio
+          ]
+        })
+        console.log(cuerpo)
+    this._reportPdfServicio.exportToPdf(encabezado, cuerpo, 'Listado de empleados', true)
   }
 
   agregarEmpleado() {

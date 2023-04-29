@@ -1,35 +1,3 @@
-<div id="particle-container">
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-</div>
 <div class="body">
   <mat-card class="loginCard">
     <div class="header">
@@ -38,14 +6,14 @@
     <mat-card-content style="padding-bottom: 15px">
       <form
         *ngIf="!loading"
-        [formGroup]="usuarioLogin"
+        [formGroup]="formularioLogin"
         (ngSubmit)="iniciarSesion()"
       >
-        <img src="./assets/img/profile.png" width="50%" />
+        <img src="./assets/img/profile.png" alt="login.png" width="50%" style="margin-bottom: 25px;" />
 
         <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Usuario</mat-label>
-          <input matInput autocomplete="off" formControlName="usuario" />
+          <mat-label>Email</mat-label>
+          <input matInput autocomplete="off" formControlName="email" />
           <mat-icon matSuffix>mail</mat-icon>
         </mat-form-field>
         <mat-form-field class="full-width" appearance="outline">
@@ -56,7 +24,6 @@
             autocomplete="off"
             formControlName="password"
             matInput
-            autocomplete="off"
           />
         </mat-form-field>
         <br />
@@ -65,10 +32,16 @@
           class="full-width button"
           mat-raised-button
           color="primary"
-          [disabled]="!usuarioLogin.valid"
+          [disabled]="!formularioLogin.valid"
         >
           Ingresar
         </button>
+
+        <div class="register">
+          <span>¿No tiene una cuenta?</span>
+          <br>
+          <a routerLink="/auth/register">Registrarse</a>
+        </div>
       </form>
     </mat-card-content>
 

@@ -9,6 +9,7 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
 import { PrimeNgModule } from 'src/app/shared/prime-ng/prime-ng.module';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { ReporteService } from '../../shared/services/reporte.service';
+import { CoreModule } from 'src/app/core/core.module';
 
 @NgModule({
   declarations: [EmpleadoComponent, DialogEmpleadoComponent],

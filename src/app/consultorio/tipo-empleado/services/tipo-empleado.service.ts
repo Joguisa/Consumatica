@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { TipoEmpleado } from '../interfaces/tipo-empleado';
 @Injectable({
@@ -13,7 +13,12 @@ export class TipoEmpleadoService {
   constructor(private http: HttpClient) {}
 
   getTipos(): Observable<TipoEmpleado[]> {
-    return this.http.get<TipoEmpleado[]>(`${this.apiUrl}tipoEmpleado`);
+    return this.http.get<TipoEmpleado[]>(`${this.apiUrl}tipoEmpleado`).pipe(
+      catchError(error => {
+        console.error(error, 'Error al obtener la lista de tipos de empleados');
+      throw error; // Lanza el error para que sea manejado por el interceptor de errores
+      })
+    );;
   }
 
   addTipos(modelo: TipoEmpleado): Observable<TipoEmpleado> {

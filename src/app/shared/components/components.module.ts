@@ -9,6 +9,7 @@ import { ButtonsComponent } from './buttons/buttons.component';
 import { SearchComponent } from './search/search.component';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { FormularioComponent } from './formulario/formulario.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { FormularioComponent } from './formulario/formulario.component';
     SearchComponent,
     ConfirmComponent,
     FormularioComponent,
+    LoadingComponent,
   ],
   exports: [
     DialogsComponent,
@@ -26,6 +28,7 @@ import { FormularioComponent } from './formulario/formulario.component';
     SearchComponent,
     ConfirmComponent,
     FormularioComponent,
+    LoadingComponent
   ],
   imports: [CommonModule, MaterialModule, PrimeNgModule, SharedModule],
 })

@@ -21,50 +21,8 @@
       <input matInput (keyup)="applyFilter($event)" #input />
     </mat-form-field>
 
-    <!-- <div class="mat-elevation-z2">
-      <table mat-table [dataSource]="dataListaServicios">
-        <ng-container matColumnDef="nombreServicio">
-          <th mat-header-cell *matHeaderCellDef>Servicio</th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.nombreServicio }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="acciones">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element">
-            <button
-              mat-icon-button
-              color="primary"
-              (click)="editarServicio(element)"
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              color="warn"
-              (click)="eliminarServicio(element)"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="columnasTabla"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnasTabla"></tr>
-
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">
-            No hay datos que coincidan con el filtro "{{ input.value }}"
-          </td>
-        </tr>
-      </table>
-
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
-      </mat-paginator>
-    </div> -->
-
     <div class="mat-elevation-z2" style="overflow-x: auto">
+      <app-loading *ngIf="dataListServicio.data.length == 0"></app-loading>
       <app-datatable
         [data]="dataListServicio.data"
         [columns]="tableColumns"

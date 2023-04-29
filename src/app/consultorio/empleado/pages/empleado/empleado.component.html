@@ -3,6 +3,7 @@
 </div>
 
 <mat-card style="margin: 20px 40px 40px 40px">
+    
   <mat-card-title>
     <app-buttons
       [colorBoton]="'primary'"
@@ -33,13 +34,14 @@
   <app-search [dataSource]="dataListEmpleado" (filtroCambiado)="aplicarFiltroTabla($event)"></app-search>
 
     <div class="mat-elevation-z2" style="overflow-x: auto">
-
+      <app-loading *ngIf="dataListEmpleado.data.length == 0"></app-loading>
       <app-datatable
         [data]="dataListEmpleado.data"
         [columns]="tableColumns"
         [config]="tableConfig"
         (action)="onTableAction($event)"
-      ></app-datatable>
+      >
+    </app-datatable>
     </div>
   </mat-card-content>
 </mat-card>

@@ -16,8 +16,7 @@ export class HomeComponent implements OnInit {
     });
   }
   cerrarSesion() {
-    localStorage.removeItem('currentUser');
-    this.authService.isLoggedIn = false;
     this.router.navigate(['/auth/login']);
+    this.authService.logout();
   }
 }
